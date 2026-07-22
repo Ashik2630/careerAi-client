@@ -24,8 +24,8 @@
   --color-accent-foreground: var(--accent-foreground);
   --color-muted: var(--muted);
   --color-muted-foreground: var(--muted-foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-serif: var(--font-geist-mono); /* We'll map this to serif later if needed */
+  --font-sans: sans-serif;
+  --font-serif: Georgia, serif;
 }
 
 @media (prefers-color-scheme: dark) {

@@ -51,13 +51,29 @@ export default function Navbar() {
           </div>
 
           {/* Right Section */}
-          <div className="hidden md:flex items-center space-x-8">
-            <Link href="/login" className="text-[14px] font-bold text-[#3b28cc] hover:text-[#2b1b99] transition-colors">
+          <div className="hidden md:flex items-center space-x-3">
+            <Link
+              href="/careerai"
+              className="text-[13px] font-bold text-[#3b28cc] bg-purple-50 hover:bg-purple-100 px-3.5 py-2 rounded-lg border border-purple-200 transition-all flex items-center gap-1.5"
+            >
+              <span className="w-2 h-2 rounded-full bg-[#3b28cc]"></span>
+              CareerAI Dashboard
+            </Link>
+
+            <Link
+              href="/mentor"
+              className="text-[13px] font-bold text-slate-700 hover:text-[#3b28cc] bg-slate-100 hover:bg-slate-200 px-3.5 py-2 rounded-lg border border-gray-200 transition-all flex items-center gap-1.5"
+            >
+              <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
+              Career Mentor Dashboard
+            </Link>
+
+            <Link href="/login" className="text-[14px] font-bold text-[#3b28cc] hover:text-[#2b1b99] transition-colors pl-2">
               Login
             </Link>
             <Link
               href="/register"
-              className="bg-[#3b28cc] hover:bg-[#2b1b99] text-white px-6 py-2.5 rounded-lg text-sm font-semibold transition-colors shadow-sm"
+              className="bg-[#3b28cc] hover:bg-[#2b1b99] text-white px-5 py-2 rounded-lg text-sm font-semibold transition-colors shadow-sm"
             >
               Get Started
             </Link>
