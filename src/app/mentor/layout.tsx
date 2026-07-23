@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
+import UserDropdown from "@/components/auth/UserDropdown";
 import {
   LayoutDashboard,
   FileText,
@@ -190,13 +191,7 @@ export default function MentorLayout({
 
             {/* User Profile Avatar */}
             <div className="flex items-center gap-2.5 border-l border-gray-200 pl-4">
-              <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-purple-500 to-indigo-600 text-white font-bold text-xs flex items-center justify-center shadow-xs">
-                AC
-              </div>
-              <div className="hidden sm:block text-left">
-                <span className="text-xs font-bold text-slate-800 block leading-tight">Alex Chen</span>
-                <span className="text-[10px] text-gray-400 block">Senior Engineer</span>
-              </div>
+              <UserDropdown />
             </div>
 
           </div>
