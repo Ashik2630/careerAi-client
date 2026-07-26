@@ -72,6 +72,13 @@ export interface CareerPlan {
   updatedAt: Date;
 }
 
+export interface NewsletterSubscriber {
+  _id?: ObjectId;
+  email: string;
+  subscribedAt: Date;
+  active: boolean;
+}
+
 export async function getDb() {
   const client = await clientPromise;
   return client.db();
@@ -100,4 +107,9 @@ export async function getConversationsCol() {
 export async function getCareerPlansCol() {
   const db = await getDb();
   return db.collection<CareerPlan>("career_plans");
+}
+
+export async function getNewsletterCol() {
+  const db = await getDb();
+  return db.collection<NewsletterSubscriber>("newsletter_subscribers");
 }

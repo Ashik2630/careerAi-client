@@ -1,6 +1,7 @@
 import HeroSection from "@/components/HeroSection";
 import IntelligentToolsSection from "@/components/IntelligentToolsSection";
 import CareerEngineSection from "@/components/CareerEngineSection";
+import FooterNewsletter from "@/components/FooterNewsletter";
 import CtaSection from "@/components/CtaSection";
 
 export default function HomePage() {
@@ -9,6 +10,7 @@ export default function HomePage() {
       <HeroSection />
       <IntelligentToolsSection />
       <CareerEngineSection />
+      <FooterNewsletter />
       <CtaSection />
     </div>
   );

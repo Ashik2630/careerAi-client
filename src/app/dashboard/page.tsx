@@ -4,21 +4,13 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useSession, signOut } from "@/lib/auth-client";
-import { 
-  Sparkles, 
-  Briefcase, 
-  Compass, 
-  GraduationCap, 
-  UserCheck, 
-  ArrowRight, 
-  LogOut, 
-  Settings, 
-  TrendingUp, 
-  Target, 
-  ShieldCheck, 
-  Mail, 
+import {
+  Compass,
+  ArrowRight,
+  LogOut,
+  Target,
+  Mail,
   Loader2,
-  Zap,
   BarChart2,
   Home,
   MessageSquare,
@@ -102,7 +94,7 @@ export default function UnifiedDashboardPage() {
 
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 flex flex-col transition-colors">
-      
+
       {/* Header */}
       <header className="bg-white dark:bg-slate-900 border-b border-slate-200/80 dark:border-slate-800 px-4 sm:px-8 py-3.5 sticky top-0 z-30 flex items-center justify-between gap-4 transition-colors">
         <div className="flex items-center gap-3">
@@ -136,13 +128,13 @@ export default function UnifiedDashboardPage() {
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-1 w-full space-y-8">
-        
+
         {/* Hero Card */}
         <div className="bg-gradient-to-r from-[#2563EB] via-[#1d4ed8] to-[#0F172A] rounded-3xl p-6 sm:p-10 text-white shadow-xl relative overflow-hidden">
           <div className="absolute -top-12 -right-12 w-64 h-64 bg-white/10 rounded-full blur-2xl pointer-events-none" />
 
           <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
-            
+
             <div className="flex items-center gap-4 sm:gap-6">
               {user.image ? (
                 <img
@@ -161,7 +153,7 @@ export default function UnifiedDashboardPage() {
                   <h1 className="text-2xl sm:text-3xl font-bold font-serif tracking-tight">
                     Welcome back, {user.name || "User"}!
                   </h1>
-                  
+
                   <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold border bg-white/10 text-white border-white/20 backdrop-blur-md">
                     <Target className="w-3.5 h-3.5 text-blue-300" />
                     <span>Goal: {profile?.goal || "Full Stack Developer"}</span>
@@ -218,12 +210,12 @@ export default function UnifiedDashboardPage() {
               <AreaChart data={SKILL_ANALYTICS_DATA} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
                 <defs>
                   <linearGradient id="colorReact" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#2563EB" stopOpacity={0.4}/>
-                    <stop offset="95%" stopColor="#2563EB" stopOpacity={0}/>
+                    <stop offset="5%" stopColor="#2563EB" stopOpacity={0.4} />
+                    <stop offset="95%" stopColor="#2563EB" stopOpacity={0} />
                   </linearGradient>
                   <linearGradient id="colorTS" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#10B981" stopOpacity={0.4}/>
-                    <stop offset="95%" stopColor="#10B981" stopOpacity={0}/>
+                    <stop offset="5%" stopColor="#10B981" stopOpacity={0.4} />
+                    <stop offset="95%" stopColor="#10B981" stopOpacity={0} />
                   </linearGradient>
                 </defs>
                 <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" opacity={0.5} />
@@ -244,7 +236,7 @@ export default function UnifiedDashboardPage() {
           </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            
+
             {/* Tool 1: Resume Analyzer */}
             <Link href="/resume-analyzer" className="bg-white dark:bg-slate-900 rounded-3xl p-6 border border-slate-200/80 dark:border-slate-800 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between group">
               <div className="space-y-3">
