@@ -15,7 +15,9 @@ export default function ProfilePage() {
     skills: "",
     education: "",
     experience: "",
-    goal: ""
+    goal: "",
+    isPro: false,
+    plan: "Free"
   });
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
@@ -37,7 +39,37 @@ export default function ProfilePage() {
 
   useEffect(() => {
     fetchProfile();
+
+    // Check if user returned from successful Stripe Checkout
+    if (typeof window !== "undefined" && window.location.search.includes("upgraded=true")) {
+      handleStripeReturnSuccess();
+    }
   }, []);
+
+  const handleStripeReturnSuccess = async () => {
+    try {
+      const res = await fetch("/api/subscription/upgrade", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ planName: "Pro Career" }),
+      });
+      const data = await res.json();
+      if (data.success && data.data) {
+        setProfile((prev) => ({
+          ...prev,
+          isPro: true,
+          plan: "Pro Career"
+        }));
+        window.dispatchEvent(new CustomEvent("profileUpdated", { detail: data.data }));
+        window.dispatchEvent(new CustomEvent("profile-updated", { detail: data.data }));
+        setSaveSuccess(true);
+        // Clean URL query parameters
+        window.history.replaceState({}, document.title, window.location.pathname);
+      }
+    } catch (e) {
+      console.error("Stripe Return Activation Error:", e);
+    }
+  };
 
   const fetchProfile = async () => {
     try {
@@ -50,7 +82,9 @@ export default function ProfilePage() {
           skills: Array.isArray(data.data.skills) ? data.data.skills.join(", ") : data.data.skills || "",
           education: data.data.education || "",
           experience: data.data.experience || "",
-          goal: data.data.goal || ""
+          goal: data.data.goal || "",
+          isPro: data.data.isPro || false,
+          plan: data.data.plan || "Free"
         });
       }
     } catch (e) {
@@ -76,6 +110,7 @@ export default function ProfilePage() {
         setSaveSuccess(true);
         // Instantly notify Navbar, UserDropdown, and Dashboard
         window.dispatchEvent(new CustomEvent("profile-updated", { detail: data.data }));
+        window.dispatchEvent(new CustomEvent("profileUpdated", { detail: data.data }));
         router.refresh();
         setTimeout(() => setSaveSuccess(false), 3000);
       }
@@ -124,12 +159,23 @@ export default function ProfilePage() {
       <div className="max-w-4xl mx-auto space-y-8">
         
         {/* Header */}
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div className="space-y-1">
             <Link href="/dashboard" className="inline-flex items-center gap-1 text-xs font-semibold text-slate-500 hover:text-[#2563EB] mb-2">
               <ArrowLeft className="w-3.5 h-3.5" /> Back to Dashboard
             </Link>
-            <h1 className="text-3xl font-serif font-bold tracking-tight">Career Profile & AI Builder</h1>
+            <div className="flex items-center gap-3">
+              <h1 className="text-3xl font-serif font-bold tracking-tight">Career Profile &amp; AI Builder</h1>
+              {profile.isPro ? (
+                <span className="px-3 py-1 rounded-full text-xs font-black bg-gradient-to-r from-amber-500 via-purple-600 to-indigo-600 text-white shadow-md uppercase tracking-wider">
+                  PRO User
+                </span>
+              ) : (
+                <span className="px-3 py-1 rounded-full text-xs font-bold bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-400">
+                  Free Member
+                </span>
+              )}
+            </div>
             <p className="text-sm text-slate-500 dark:text-slate-400">
               Set up your skills and experience to power your multi-agent AI career tools.
             </p>
@@ -144,6 +190,46 @@ export default function ProfilePage() {
             Generate AI Content
           </button>
         </div>
+
+        {/* Subscription Tier Banner */}
+        {profile.isPro ? (
+          <div className="p-5 rounded-3xl bg-gradient-to-r from-amber-500/10 via-purple-500/10 to-indigo-500/10 border border-amber-300 dark:border-amber-700/50 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-amber-500 to-purple-600 text-white font-bold flex items-center justify-center shadow-sm shrink-0">
+                <Sparkles className="w-5 h-5 fill-white" />
+              </div>
+              <div>
+                <h3 className="font-bold text-sm text-slate-900 dark:text-white flex items-center gap-2">
+                  <span>PRO Career Member Active</span>
+                  <span className="px-2 py-0.5 rounded-full text-[10px] bg-emerald-100 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300 font-bold">Active</span>
+                </h3>
+                <p className="text-xs text-slate-500 dark:text-slate-400">
+                  Unlimited ATS Resumes • 24/7 AI Career Coach • Priority Job Matcher
+                </p>
+              </div>
+            </div>
+            <Link href="/pricing" className="px-4 py-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-xs font-bold text-slate-700 dark:text-slate-200 hover:bg-slate-50 transition-all shrink-0">
+              Manage Plan
+            </Link>
+          </div>
+        ) : (
+          <div className="p-5 rounded-3xl bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-slate-900 dark:to-slate-900 border border-blue-200 dark:border-slate-800 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-2xl bg-[#2563EB] text-white font-bold flex items-center justify-center shrink-0">
+                <Sparkles className="w-5 h-5" />
+              </div>
+              <div>
+                <h3 className="font-bold text-sm text-slate-900 dark:text-white">Upgrade to CareerAI PRO</h3>
+                <p className="text-xs text-slate-500 dark:text-slate-400">
+                  Unlock unlimited ATS scans, mock interviews, and automated job matching.
+                </p>
+              </div>
+            </div>
+            <Link href="/pricing" className="px-4 py-2 rounded-xl bg-[#2563EB] hover:bg-blue-700 text-white text-xs font-bold shadow-sm transition-all shrink-0">
+              Upgrade to PRO
+            </Link>
+          </div>
+        )}
 
         {/* Success Alert */}
         {saveSuccess && (

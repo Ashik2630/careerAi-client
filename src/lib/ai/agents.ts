@@ -159,7 +159,47 @@ Provide a detailed, expert technical response or career guidance tailored to the
   // Smart Dynamic Fallback Reasoning Engine
   const query = userMessage.toLowerCase();
 
-  // 1. Transition / Junior to Senior Questions
+  // 1. Salary Negotiation & Compensation Questions
+  if (query.includes("salary") || query.includes("negotiate") || query.includes("offer") || query.includes("compensation")) {
+    return `### 💰 Strategic Guide: Negotiating Senior Developer Salary Offers
+
+When negotiating a **Senior Developer / Lead Role** offer at top tech companies:
+
+#### 🎯 1. Key Negotiation Rules
+1. **Never Give the First Number:** Let the recruiter present the initial base salary, equity (RSUs/Options), and signing bonus breakdown first.
+2. **Anchor with Market Benchmarks:** Cite verified market data (Levels.fyi, Glassdoor) for Senior Software Engineer roles ($180K - $240K total compensation).
+3. **Focus on Total Compensation (TC):** Negotiate Equity Grants, Signing Bonus, and Performance Bonuses in addition to Base Salary.
+
+#### 💬 Script for Counter-Offer Negotiation:
+> *"Thank you for extending this offer! I am extremely excited about the engineering challenges at your company. Based on my technical background in full-stack architecture and market benchmarks for Senior Engineers, I was expecting total compensation closer to **$210,000**. If we can adjust the base salary or add a $20,000 signing bonus, I am ready to sign today."*
+
+#### 💡 Key Leverage Points:
+- **Competing Offers:** Mention active interview processes with other tier-1 tech firms.
+- **Unique Skill Alignment:** Highlight your immediate high-impact capabilities in Next.js, Node.js, and cloud deployment.`;
+  }
+
+  // 2. Resume Review & Bullet Points Questions
+  if (query.includes("bullet point") || query.includes("bullet points") || (query.includes("resume") && (query.includes("google") || query.includes("review")))) {
+    return `### 📄 High-Impact Resume Bullet Points for Google & Top Tech
+
+To pass Google's ATS and engineering manager review, structure your bullet points using **Google's XYZ Formula:** *"Accomplished [X], as measured by [Y], by doing [Z]."*
+
+#### 🎯 Optimized Bullet Point Examples:
+
+1. **Frontend & Next.js Performance:**
+   - *"Engineered a multi-tenant Next.js 15 analytics portal serving 250K+ daily users, reducing initial page load time by 48% using server-side caching and dynamic route splitting."*
+
+2. **Backend & Microservices:**
+   - *"Architected a distributed Node.js microservice handling 10,000+ API requests/sec with 99.99% uptime, utilizing Redis caching and sharded MongoDB queries."*
+
+3. **System Optimization & AI Integration:**
+   - *"Integrated asynchronous LLM agent workflows into production SaaS product, boosting user engagement by 35% and cutting API token overhead by 22%."*
+
+#### 💡 Action Step:
+Would you like me to review and rewrite your specific past project experience using this Google XYZ format?`;
+  }
+
+  // 3. Transition / Junior to Senior Questions
   if (query.includes("transition") || query.includes("senior") || query.includes("junior to senior") || query.includes("growth") || query.includes("lead")) {
     return `### 🚀 Roadmap: Junior to Senior ${role || "React Developer"}
 

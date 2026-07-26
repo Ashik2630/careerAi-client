@@ -24,6 +24,8 @@ export async function GET() {
           name: session?.name || "Alex Candidate",
           email: session?.email || "alex@example.com",
           role: (session as any)?.role || "job-seeker",
+          isPro: false,
+          plan: "Free",
           skills: ["React", "JavaScript", "Node.js", "Tailwind CSS"],
           education: "Bachelor of Science in Computer Science",
           experience: "2 years software developer experience",
@@ -39,6 +41,8 @@ export async function GET() {
         name: profile.name || session?.name || "Alex Candidate",
         email: profile.email || session?.email || "alex@example.com",
         role: profile.role || (session as any)?.role || "job-seeker",
+        isPro: profile.isPro || false,
+        plan: profile.plan || "Free",
       }
     });
   } catch (error: any) {
@@ -50,7 +54,7 @@ export async function POST(request: Request) {
   try {
     const session = await getUserSession();
     const body = await request.json();
-    const { name, email, role, skills, education, experience, goal } = body;
+    const { name, email, role, skills, education, experience, goal, isPro, plan } = body;
 
     const targetEmail = email || session?.email || "alex@example.com";
     const targetName = name || session?.name || "Alex Candidate";
@@ -73,6 +77,8 @@ export async function POST(request: Request) {
       education: education || "",
       experience: experience || "",
       goal: goal || "Full Stack Developer",
+      ...(typeof isPro === "boolean" ? { isPro } : {}),
+      ...(plan ? { plan } : {}),
       updatedAt: new Date()
     };
 

@@ -1,58 +1,87 @@
 "use client";
 
-import { useState } from "react";
-import { Send, Sparkles, Bot, User, RefreshCw, ThumbsUp, ThumbsDown } from "lucide-react";
+import { useState, useEffect, useRef } from "react";
+import { Send, Bot, RefreshCw, Loader2, Sparkles } from "lucide-react";
+import { useSession } from "@/lib/auth-client";
 
 export default function ChatPage() {
-  const [messages, setMessages] = useState([
+  const { data: session } = useSession();
+  const [messages, setMessages] = useState<any[]>([
     {
-      id: 1,
+      id: "init-1",
       sender: "ai",
-      text: "Hello Alex! I'm your AI Career Coach. How can I help you accelerate your tech career today?",
-      time: "10:30 AM",
-    },
-    {
-      id: 2,
-      sender: "user",
-      text: "Can you help me prepare for a System Design interview at Google for a Senior Engineer role?",
-      time: "10:31 AM",
-    },
-    {
-      id: 3,
-      sender: "ai",
-      text: "Absolutely! For Google Senior Engineer System Design interviews, key focus areas include high-availability caching (Redis/Memcached), data partitioning (sharding), rate limiting algorithms (Token Bucket), and distributed queueing (Kafka). Would you like to do a 15-minute simulated mock interview?",
-      time: "10:31 AM",
-    },
+      text: "Hello! I am your **AI Career Coach & Technical Advisor**. Ask me anything about resume bullet points, salary negotiation, system design, or interview prep!",
+      time: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
+    }
   ]);
 
   const [input, setInput] = useState("");
+  const [isThinking, setIsThinking] = useState(false);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  const handleSend = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!input.trim()) return;
+  const userInitials = session?.user?.name
+    ? session.user.name.split(" ").map((n: string) => n[0]).join("").substring(0, 2).toUpperCase()
+    : "AC";
 
-    const newMsg = {
-      id: Date.now(),
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages, isThinking]);
+
+  const handleSend = async (e?: React.FormEvent, customInput?: string) => {
+    if (e) e.preventDefault();
+    const promptText = customInput || input;
+    if (!promptText.trim() || isThinking) return;
+
+    const currentTime = new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+    const userMsg = {
+      id: `user-${Date.now()}`,
       sender: "user",
-      text: input,
-      time: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
+      text: promptText,
+      time: currentTime,
     };
 
-    setMessages((prev) => [...prev, newMsg]);
+    setMessages((prev) => [...prev, userMsg]);
     setInput("");
+    setIsThinking(true);
 
-    // Simulate AI Response
-    setTimeout(() => {
+    try {
+      const res = await fetch("/api/ai/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          message: promptText,
+          targetRole: "Senior Engineer",
+        }),
+      });
+
+      const data = await res.json();
+      if (data.success && data.reply) {
+        setMessages((prev) => [
+          ...prev,
+          {
+            id: `ai-${Date.now()}`,
+            sender: "ai",
+            text: data.reply.content,
+            time: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
+          },
+        ]);
+      } else {
+        throw new Error(data.error || "Failed to get AI response");
+      }
+    } catch (err) {
+      console.error("Chat error:", err);
       setMessages((prev) => [
         ...prev,
         {
-          id: Date.now() + 1,
+          id: `ai-err-${Date.now()}`,
           sender: "ai",
-          text: "That's a great approach! To optimize latency further, consider adding an edge CDN layer with Cloudflare Workers to serve static assets and cache GraphQL responses close to the user.",
+          text: `Thank you for asking about **"${promptText}"**. For Senior Technical roles, ensure you structure your answer with clear trade-off analysis, latency metrics, and production-grade system resilience patterns.`,
           time: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
         },
       ]);
-    }, 1000);
+    } finally {
+      setIsThinking(false);
+    }
   };
 
   const samplePrompts = [
@@ -73,12 +102,25 @@ export default function ChatPage() {
           <div>
             <h2 className="font-bold text-slate-900 dark:text-white text-sm">AI Career Coach</h2>
             <span className="text-[11px] text-emerald-600 dark:text-emerald-400 font-medium flex items-center gap-1">
-              <span className="w-2 h-2 rounded-full bg-emerald-500 inline-block"></span> Online & Active
+              <span className="w-2 h-2 rounded-full bg-emerald-500 inline-block animate-pulse"></span> Online &amp; Active
             </span>
           </div>
         </div>
 
-        <button className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 cursor-pointer">
+        <button
+          onClick={() => {
+            setMessages([
+              {
+                id: `init-${Date.now()}`,
+                sender: "ai",
+                text: "Chat session refreshed! How can I assist with your resume, coding prep, or salary negotiation today?",
+                time: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
+              }
+            ]);
+          }}
+          className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 cursor-pointer"
+          title="Reset Chat"
+        >
           <RefreshCw className="w-4 h-4" />
         </button>
       </div>
@@ -99,19 +141,19 @@ export default function ChatPage() {
                   : "bg-[#3b28cc] text-white"
               }`}
             >
-              {msg.sender === "user" ? "AC" : <Bot className="w-4 h-4" />}
+              {msg.sender === "user" ? userInitials : <Bot className="w-4 h-4" />}
             </div>
 
             <div
-              className={`max-w-lg p-4 rounded-2xl text-xs sm:text-sm leading-relaxed ${
+              className={`max-w-xl p-4 rounded-2xl text-xs sm:text-sm leading-relaxed whitespace-pre-line ${
                 msg.sender === "user"
-                  ? "bg-[#3b28cc] text-white rounded-tr-none"
+                  ? "bg-[#3b28cc] text-white rounded-tr-none font-medium"
                   : "bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-100 rounded-tl-none border border-slate-200/60 dark:border-slate-700"
               }`}
             >
-              <p>{msg.text}</p>
+              <div>{msg.text}</div>
               <span
-                className={`text-[10px] block mt-1.5 ${
+                className={`text-[10px] block mt-2 ${
                   msg.sender === "user" ? "text-blue-200 text-right" : "text-slate-400 dark:text-slate-500"
                 }`}
               >
@@ -120,17 +162,33 @@ export default function ChatPage() {
             </div>
           </div>
         ))}
+
+        {isThinking && (
+          <div className="flex items-center gap-3">
+            <div className="w-8 h-8 rounded-full bg-[#3b28cc] text-white flex items-center justify-center text-xs font-bold shrink-0">
+              <Bot className="w-4 h-4" />
+            </div>
+            <div className="bg-slate-100 dark:bg-slate-800 p-3 rounded-2xl border border-slate-200/60 dark:border-slate-700 flex items-center gap-2 text-xs text-slate-500">
+              <Loader2 className="w-4 h-4 text-[#3b28cc] animate-spin" />
+              <span>AI Coach is analyzing and composing response...</span>
+            </div>
+          </div>
+        )}
+
+        <div ref={messagesEndRef} />
       </div>
 
       {/* Prompt Suggestions */}
-      <div className="px-4 py-2 bg-slate-50 dark:bg-slate-800/40 border-t border-gray-100 dark:border-slate-800 flex flex-wrap gap-2">
+      <div className="px-4 py-2.5 bg-slate-50 dark:bg-slate-800/40 border-t border-gray-100 dark:border-slate-800 flex flex-wrap gap-2">
         {samplePrompts.map((prompt, idx) => (
           <button
             key={idx}
-            onClick={() => setInput(prompt)}
-            className="bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 hover:border-[#3b28cc] dark:hover:border-purple-400 text-slate-600 dark:text-slate-300 text-xs px-3 py-1.5 rounded-full transition-all text-left cursor-pointer"
+            onClick={() => handleSend(undefined, prompt)}
+            disabled={isThinking}
+            className="bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 hover:border-[#3b28cc] dark:hover:border-purple-400 text-slate-700 dark:text-slate-300 text-xs px-3.5 py-1.5 rounded-full transition-all text-left cursor-pointer disabled:opacity-50 flex items-center gap-1.5 shadow-2xs"
           >
-            {prompt}
+            <Sparkles className="w-3 h-3 text-[#3b28cc]" />
+            <span>{prompt}</span>
           </button>
         ))}
       </div>
@@ -142,15 +200,18 @@ export default function ChatPage() {
           placeholder="Ask your AI Career Coach anything..."
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          className="flex-1 bg-slate-50 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-xl px-4 py-3 text-xs sm:text-sm text-slate-800 dark:text-slate-100 placeholder-gray-400 dark:placeholder-slate-500 focus:outline-none focus:border-[#3b28cc] dark:focus:border-purple-400 focus:bg-white dark:focus:bg-slate-900 transition-all"
+          disabled={isThinking}
+          className="flex-1 bg-slate-50 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-xl px-4 py-3 text-xs sm:text-sm text-slate-800 dark:text-slate-100 placeholder-gray-400 dark:placeholder-slate-500 focus:outline-none focus:border-[#3b28cc] dark:focus:border-purple-400 focus:bg-white dark:focus:bg-slate-900 transition-all disabled:opacity-50"
         />
         <button
           type="submit"
-          className="bg-[#3b28cc] hover:bg-[#2d1eb3] text-white p-3 rounded-xl shadow-xs transition-all cursor-pointer"
+          disabled={isThinking || !input.trim()}
+          className="bg-[#3b28cc] hover:bg-[#2d1eb3] text-white p-3 rounded-xl shadow-xs transition-all cursor-pointer disabled:opacity-50"
         >
-          <Send className="w-4 h-4" />
+          {isThinking ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
         </button>
       </form>
     </div>
   );
 }
+

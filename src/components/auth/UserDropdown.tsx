@@ -18,7 +18,7 @@ export default function UserDropdown() {
   const { data: session, isPending } = useSession();
   const [isOpen, setIsOpen] = useState(false);
   const [isLoggingOut, setIsLoggingOut] = useState(false);
-  const [liveProfile, setLiveProfile] = useState<{ name?: string; email?: string; role?: string } | null>(null);
+  const [liveProfile, setLiveProfile] = useState<{ name?: string; email?: string; role?: string; isPro?: boolean; plan?: string } | null>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
 
@@ -40,7 +40,13 @@ export default function UserDropdown() {
         const res = await fetch("/api/profile");
         const data = await res.json();
         if (data.success && data.data) {
-          setLiveProfile({ name: data.data.name, email: data.data.email, role: data.data.role });
+          setLiveProfile({
+            name: data.data.name,
+            email: data.data.email,
+            role: data.data.role,
+            isPro: data.data.isPro,
+            plan: data.data.plan,
+          });
         }
       } catch (e) {
         console.error(e);
@@ -56,6 +62,8 @@ export default function UserDropdown() {
           name: customEvent.detail.name,
           email: customEvent.detail.email,
           role: customEvent.detail.role,
+          isPro: customEvent.detail.isPro,
+          plan: customEvent.detail.plan,
         });
       } else {
         fetchLatestProfile();
@@ -63,7 +71,11 @@ export default function UserDropdown() {
     };
 
     window.addEventListener("profile-updated", handleProfileUpdated);
-    return () => window.removeEventListener("profile-updated", handleProfileUpdated);
+    window.addEventListener("profileUpdated", handleProfileUpdated);
+    return () => {
+      window.removeEventListener("profile-updated", handleProfileUpdated);
+      window.removeEventListener("profileUpdated", handleProfileUpdated);
+    };
   }, []);
 
   const handleSignOut = async () => {
@@ -135,9 +147,16 @@ export default function UserDropdown() {
         )}
 
         <div className="hidden sm:flex flex-col text-left">
-          <span className="text-xs font-bold text-slate-800 dark:text-slate-100 leading-tight group-hover:text-[#3b28cc] dark:group-hover:text-purple-400 transition-colors">
-            {userName}
-          </span>
+          <div className="flex items-center gap-1.5">
+            <span className="text-xs font-bold text-slate-800 dark:text-slate-100 leading-tight group-hover:text-[#3b28cc] dark:group-hover:text-purple-400 transition-colors">
+              {userName}
+            </span>
+            {liveProfile?.isPro && (
+              <span className="px-1.5 py-0.5 rounded-full text-[9px] font-black bg-gradient-to-r from-amber-500 via-purple-600 to-indigo-600 text-white shadow-xs tracking-wider uppercase">
+                PRO
+              </span>
+            )}
+          </div>
           <span className="text-[10px] text-slate-400 dark:text-slate-400 truncate max-w-[120px]">
             {userEmail}
           </span>
@@ -162,18 +181,32 @@ export default function UserDropdown() {
                 className="w-10 h-10 rounded-full object-cover ring-2 ring-purple-100 dark:ring-purple-900"
               />
             ) : (
-              <div className="w-10 h-10 rounded-full bg-[#3b28cc] text-white font-bold text-sm flex items-center justify-center">
+              <div className="w-10 h-10 rounded-full bg-[#3b28cc] text-white font-bold text-sm flex items-center justify-center relative">
                 {initials}
               </div>
             )}
             <div className="min-w-0 flex-1">
-              <p className="text-sm font-bold text-slate-900 dark:text-white truncate">{userName}</p>
+              <div className="flex items-center gap-1.5">
+                <p className="text-sm font-bold text-slate-900 dark:text-white truncate">{userName}</p>
+                {liveProfile?.isPro && (
+                  <span className="px-1.5 py-0.5 rounded-full text-[9px] font-black bg-gradient-to-r from-amber-500 via-purple-600 to-indigo-600 text-white shadow-xs tracking-wider uppercase">
+                    PRO
+                  </span>
+                )}
+              </div>
               <p className="text-xs text-slate-400 dark:text-slate-400 truncate">{userEmail}</p>
-              {(user as any).role && (
-                <span className="inline-block mt-1 px-2 py-0.5 rounded-md text-[10px] font-bold uppercase bg-purple-50 dark:bg-purple-950/50 text-[#3b28cc] dark:text-purple-400 border border-purple-200 dark:border-purple-800">
-                  {(user as any).role}
-                </span>
-              )}
+              <div className="flex items-center gap-1 mt-1">
+                {(user as any).role && (
+                  <span className="inline-block px-2 py-0.5 rounded-md text-[10px] font-bold uppercase bg-purple-50 dark:bg-purple-950/50 text-[#3b28cc] dark:text-purple-400 border border-purple-200 dark:border-purple-800">
+                    {(user as any).role}
+                  </span>
+                )}
+                {liveProfile?.isPro && (
+                  <span className="inline-block px-2 py-0.5 rounded-md text-[10px] font-bold bg-amber-50 dark:bg-amber-950/50 text-amber-600 dark:text-amber-400 border border-amber-200 dark:border-amber-800">
+                    PRO Plan
+                  </span>
+                )}
+              </div>
             </div>
           </div>
 

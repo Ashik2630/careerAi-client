@@ -2,12 +2,22 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { PlusCircle, Trash2, ArrowLeft, Loader2, Briefcase, MapPin, DollarSign, Database } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useSession } from "@/lib/auth-client";
+import { PlusCircle, Trash2, ArrowLeft, Loader2, Briefcase, MapPin, DollarSign, Database, Eye } from "lucide-react";
 
 export default function ManageItemsPage() {
+  const router = useRouter();
+  const { data: session, isPending: sessionPending } = useSession();
   const [items, setItems] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [deletingId, setDeletingId] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!sessionPending && !session?.user) {
+      router.push("/login");
+    }
+  }, [sessionPending, session, router]);
 
   useEffect(() => {
     fetchItems();

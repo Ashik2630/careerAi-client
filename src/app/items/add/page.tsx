@@ -1,12 +1,20 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useSession } from "@/lib/auth-client";
 import { PlusCircle, ArrowLeft, Briefcase, MapPin, DollarSign, Sparkles, Loader2, CheckCircle2 } from "lucide-react";
 
 export default function AddItemPage() {
   const router = useRouter();
+  const { data: session, isPending: sessionPending } = useSession();
+
+  useEffect(() => {
+    if (!sessionPending && !session?.user) {
+      router.push("/login");
+    }
+  }, [sessionPending, session, router]);
   const [formData, setFormData] = useState({
     title: "",
     company: "",

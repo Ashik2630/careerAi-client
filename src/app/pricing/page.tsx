@@ -1,10 +1,117 @@
 "use client";
 
 import { useState } from "react";
-import { Check, Sparkles, Zap } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useSession } from "@/lib/auth-client";
+import { Check, Sparkles, Zap, X, CreditCard, CheckCircle2, Loader2 } from "lucide-react";
 
 export default function PricingPage() {
+  const router = useRouter();
+  const { data: session } = useSession();
   const [isAnnual, setIsAnnual] = useState(true);
+
+  // Upgrade & Stripe Checkout states
+  const [selectedPlan, setSelectedPlan] = useState<any>(null);
+  const [loadingPlanName, setLoadingPlanName] = useState<string | null>(null);
+  const [isUpgrading, setIsUpgrading] = useState(false);
+  const [upgradeSuccess, setUpgradeSuccess] = useState(false);
+
+  const handleSelectPlan = async (plan: any) => {
+    if (plan.monthlyPrice === "$0") {
+      router.push(session?.user ? "/dashboard" : "/register");
+      return;
+    }
+
+    if (!session?.user) {
+      router.push("/login?redirect=/pricing");
+      return;
+    }
+
+    setLoadingPlanName(plan.name);
+
+    try {
+      const res = await fetch("/api/checkout_sessions", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          planName: plan.name,
+          isAnnual,
+          priceId: isAnnual ? plan.id_annual : plan.id_monthly,
+        }),
+      });
+
+      const data = await res.json();
+      if (data.url) {
+        // Redirect directly to official Stripe Payment Gateway
+        window.location.href = data.url;
+      } else {
+        alert(data.error || "Failed to initiate Stripe Checkout session.");
+        setLoadingPlanName(null);
+      }
+    } catch (e: any) {
+      console.error("Stripe Redirect Error:", e);
+      alert("Error connecting to Stripe Payment Gateway.");
+      setLoadingPlanName(null);
+    }
+  };
+
+  const handleStripeCheckout = async () => {
+    if (!selectedPlan) return;
+    setIsUpgrading(true);
+
+    try {
+      const res = await fetch("/api/checkout_sessions", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          planName: selectedPlan.name,
+          isAnnual,
+          priceId: isAnnual ? selectedPlan.id_annual : selectedPlan.id_monthly,
+        }),
+      });
+
+      const data = await res.json();
+      if (data.url) {
+        // Redirect directly to official Stripe Checkout page
+        window.location.href = data.url;
+      } else {
+        alert(data.error || "Failed to initiate Stripe Checkout session.");
+      }
+    } catch (e: any) {
+      console.error("Stripe Redirect Error:", e);
+      alert("Error connecting to Stripe Payment Gateway.");
+    } finally {
+      setIsUpgrading(false);
+    }
+  };
+
+  const handleConfirmUpgrade = async () => {
+    if (!selectedPlan) return;
+    setIsUpgrading(true);
+
+    try {
+      const res = await fetch("/api/subscription/upgrade", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ planName: selectedPlan.name }),
+      });
+
+      const data = await res.json();
+      if (data.success) {
+        setUpgradeSuccess(true);
+        // Dispatch real-time events to sync navbar and profile status
+        window.dispatchEvent(new CustomEvent("profileUpdated", { detail: data.data }));
+        window.dispatchEvent(new CustomEvent("profile-updated", { detail: data.data }));
+      } else {
+        alert(data.error || "Upgrade failed. Please try again.");
+      }
+    } catch (e: any) {
+      console.error(e);
+      alert("Error processing subscription upgrade.");
+    } finally {
+      setIsUpgrading(false);
+    }
+  };
 
   const plans = [
     {
@@ -169,24 +276,132 @@ export default function PricingPage() {
               </div>
 
               <div className="pt-8">
-                <form action="/api/checkout_sessions" method="POST">
-                  <input type="hidden" name="priceId" value={isAnnual ? plan.id_annual : plan.id_monthly} />
-                  <section>
-                    <button className={`w-full text-center py-3.5 rounded-xl font-bold text-sm block transition-all shadow-sm ${plan.popular
-                      ? "bg-[#3b28cc] hover:bg-[#2d1eb3] text-white"
+                <button
+                  onClick={() => handleSelectPlan(plan)}
+                  disabled={loadingPlanName === plan.name}
+                  className={`w-full text-center py-3.5 rounded-xl font-bold text-sm block transition-all shadow-sm cursor-pointer flex items-center justify-center gap-2 disabled:opacity-60 ${
+                    plan.popular
+                      ? "bg-gradient-to-r from-[#3b28cc] to-purple-600 hover:from-[#2d1eb3] hover:to-purple-700 text-white shadow-md"
                       : "bg-[#3b28cc] hover:bg-[#2d1eb3] text-white"
-                      }`}
-                      type="submit"
-                      role="link">
-                       {plan.ctaText}
-                    </button>
-                  </section>
-                </form>
+                  }`}
+                >
+                  {loadingPlanName === plan.name ? (
+                    <>
+                      <Loader2 className="w-4 h-4 animate-spin" /> Redirecting to Stripe...
+                    </>
+                  ) : (
+                    plan.ctaText
+                  )}
+                </button>
               </div>
             </div>
           ))}
         </div>
       </section>
+
+      {/* Pro Checkout Modal */}
+      {selectedPlan && (
+        <div className="fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-xs flex items-center justify-center p-4">
+          <div className="bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-8 max-w-md w-full border border-slate-200 dark:border-slate-800 shadow-2xl space-y-6 animate-fadeIn">
+            
+            {!upgradeSuccess ? (
+              <>
+                <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-4">
+                  <div className="flex items-center gap-2">
+                    <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-amber-500 to-purple-600 text-white font-bold flex items-center justify-center shadow-xs">
+                      <Sparkles className="w-5 h-5" />
+                    </div>
+                    <div>
+                      <h3 className="font-serif font-bold text-lg text-slate-900 dark:text-white">Upgrade to {selectedPlan.name}</h3>
+                      <span className="text-xs text-slate-400">Unlock full AI Career features</span>
+                    </div>
+                  </div>
+                  <button onClick={() => setSelectedPlan(null)} className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
+                    <X className="w-5 h-5" />
+                  </button>
+                </div>
+
+                <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 space-y-2 text-xs">
+                  <div className="flex justify-between font-semibold">
+                    <span className="text-slate-600 dark:text-slate-400">Selected Plan:</span>
+                    <span className="text-slate-900 dark:text-white font-bold">{selectedPlan.name} ({isAnnual ? "Annual" : "Monthly"})</span>
+                  </div>
+                  <div className="flex justify-between font-semibold">
+                    <span className="text-slate-600 dark:text-slate-400">Amount Due:</span>
+                    <span className="text-emerald-600 dark:text-emerald-400 text-sm font-bold">
+                      {isAnnual ? selectedPlan.annualPrice : selectedPlan.monthlyPrice} / month
+                    </span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-slate-500">Includes:</span>
+                    <span className="text-slate-700 dark:text-slate-300 font-medium">Unlimited ATS Scans &amp; AI Coach</span>
+                  </div>
+                </div>
+
+                <div className="space-y-3">
+                  <span className="text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider block">Payment Method</span>
+                  <div className="p-3 rounded-xl border border-blue-200 dark:border-blue-800 bg-blue-50/50 dark:bg-blue-950/40 flex items-center justify-between text-xs">
+                    <div className="flex items-center gap-2 font-semibold text-slate-800 dark:text-slate-200">
+                      <CreditCard className="w-4 h-4 text-[#3b28cc]" />
+                      <span>Instant CareerAI Pro Checkout</span>
+                    </div>
+                    <span className="text-[10px] font-bold text-emerald-600 bg-emerald-100 dark:bg-emerald-950 px-2 py-0.5 rounded-full">Secure</span>
+                  </div>
+                </div>
+
+                <div className="space-y-2 pt-2">
+                  <button
+                    onClick={handleStripeCheckout}
+                    disabled={isUpgrading}
+                    className="w-full py-3.5 rounded-xl bg-gradient-to-r from-[#3b28cc] to-purple-600 hover:from-[#2d1eb3] hover:to-purple-700 text-white font-bold text-sm shadow-md flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
+                  >
+                    {isUpgrading ? (
+                      <>
+                        <Loader2 className="w-4 h-4 animate-spin" /> Redirecting to Stripe Gateway...
+                      </>
+                    ) : (
+                      <>
+                        <CreditCard className="w-4 h-4" /> Proceed to Stripe Checkout Payment
+                      </>
+                    )}
+                  </button>
+
+                  <button
+                    onClick={handleConfirmUpgrade}
+                    disabled={isUpgrading}
+                    className="w-full py-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 font-semibold text-xs transition-all cursor-pointer"
+                  >
+                    Instant PRO Profile Activation (Test Mode)
+                  </button>
+                </div>
+              </>
+            ) : (
+              <div className="text-center space-y-4 py-4">
+                <div className="w-16 h-16 rounded-3xl bg-emerald-100 dark:bg-emerald-950 text-emerald-600 dark:text-emerald-400 font-bold flex items-center justify-center mx-auto shadow-md">
+                  <CheckCircle2 className="w-8 h-8" />
+                </div>
+                <div className="space-y-1">
+                  <h3 className="text-2xl font-serif font-bold text-slate-900 dark:text-white">🎉 Welcome to PRO!</h3>
+                  <p className="text-xs text-slate-500 dark:text-slate-400">
+                    Your profile has been upgraded to <span className="font-bold text-[#3b28cc] dark:text-purple-400">PRO User</span> status in the database.
+                  </p>
+                </div>
+                <button
+                  onClick={() => {
+                    setSelectedPlan(null);
+                    setUpgradeSuccess(false);
+                    router.push("/profile");
+                  }}
+                  className="w-full py-3 rounded-xl bg-[#3b28cc] text-white font-bold text-xs shadow-md"
+                >
+                  View My PRO Profile
+                </button>
+              </div>
+            )}
+
+          </div>
+        </div>
+      )}
 
       {/* FAQ Section */}
       <section className="py-16 bg-slate-50/60 dark:bg-slate-900/60 border-t border-gray-100 dark:border-slate-800 transition-colors">

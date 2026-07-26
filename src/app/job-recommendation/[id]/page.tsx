@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/immutability */
 "use client";
 
 import { useState, useEffect, use } from "react";
@@ -16,7 +17,6 @@ import {
   Bookmark,
   Send,
   Loader2,
-  Clock,
   ShieldCheck,
   Award,
   Zap,
@@ -46,6 +46,7 @@ export default function JobDetailsPage({ params }: { params: Promise<{ id: strin
     if (jobId) {
       fetchJobDetails();
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [jobId]);
 
   const fetchJobDetails = async () => {

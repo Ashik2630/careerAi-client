@@ -7,6 +7,9 @@ export interface UserProfile {
   name: string;
   email: string;
   role?: string;
+  isPro?: boolean;
+  plan?: string;
+  proActivatedAt?: Date;
   skills: string[];
   education: string;
   experience: string;
