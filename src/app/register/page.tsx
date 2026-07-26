@@ -122,6 +122,23 @@ export default function RegisterPage() {
     setIsLoading(true);
 
     try {
+      // Save profile role in MongoDB
+      const saveProfileRole = async () => {
+        try {
+          await fetch("/api/profile", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              name: fullName,
+              email,
+              role,
+            }),
+          });
+        } catch (e) {
+          console.error("Failed to post role to profile:", e);
+        }
+      };
+
       await signUp.email(
         {
           name: fullName,
@@ -131,12 +148,13 @@ export default function RegisterPage() {
         } as any,
         {
           onRequest: () => setIsLoading(true),
-          onSuccess: () => {
+          onSuccess: async () => {
+            await saveProfileRole();
             setIsLoading(false);
             setSuccessMessage("Account created successfully! Preparing your Dashboard...");
             setTimeout(() => {
               router.push("/dashboard");
-            }, 1000);
+            }, 800);
           },
           onError: (ctx) => {
             setIsLoading(false);
@@ -145,11 +163,17 @@ export default function RegisterPage() {
         }
       );
     } catch {
+      await fetch("/api/profile", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name: fullName, email, role }),
+      }).catch(() => {});
+
       setIsLoading(false);
       setSuccessMessage("Account created! Redirecting to Dashboard...");
       setTimeout(() => {
         router.push("/dashboard");
-      }, 1000);
+      }, 800);
     }
   };
 

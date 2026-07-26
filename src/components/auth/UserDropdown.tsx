@@ -18,6 +18,7 @@ export default function UserDropdown() {
   const { data: session, isPending } = useSession();
   const [isOpen, setIsOpen] = useState(false);
   const [isLoggingOut, setIsLoggingOut] = useState(false);
+  const [liveProfile, setLiveProfile] = useState<{ name?: string; email?: string; role?: string } | null>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
 
@@ -30,6 +31,39 @@ export default function UserDropdown() {
     }
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  // Sync profile data and listen for real-time updates
+  useEffect(() => {
+    const fetchLatestProfile = async () => {
+      try {
+        const res = await fetch("/api/profile");
+        const data = await res.json();
+        if (data.success && data.data) {
+          setLiveProfile({ name: data.data.name, email: data.data.email, role: data.data.role });
+        }
+      } catch (e) {
+        console.error(e);
+      }
+    };
+
+    fetchLatestProfile();
+
+    const handleProfileUpdated = (event: Event) => {
+      const customEvent = event as CustomEvent;
+      if (customEvent.detail) {
+        setLiveProfile({
+          name: customEvent.detail.name,
+          email: customEvent.detail.email,
+          role: customEvent.detail.role,
+        });
+      } else {
+        fetchLatestProfile();
+      }
+    };
+
+    window.addEventListener("profile-updated", handleProfileUpdated);
+    return () => window.removeEventListener("profile-updated", handleProfileUpdated);
   }, []);
 
   const handleSignOut = async () => {
@@ -67,13 +101,14 @@ export default function UserDropdown() {
 
   const user = session.user;
   const userImage = user.image;
-  const userName = user.name || "User";
-  const userEmail = user.email || "";
+  const userName = liveProfile?.name || user.name || "User";
+  const userEmail = liveProfile?.email || user.email || "";
 
   // Helper to extract 1-2 initials
   const initials = userName
     .split(" ")
     .map((n) => n[0])
+    .filter(Boolean)
     .join("")
     .substring(0, 2)
     .toUpperCase() || "U";
@@ -162,22 +197,24 @@ export default function UserDropdown() {
               CareerAI Intelligence
             </Link>
 
-            <Link
-              href="/mentor"
-              onClick={() => setIsOpen(false)}
-              className="flex items-center gap-2.5 px-4 py-2 text-xs font-semibold text-slate-700 dark:text-slate-200 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-emerald-50/60 dark:hover:bg-slate-800/60 transition-colors"
-            >
-              <User className="w-4 h-4 text-emerald-500 dark:text-emerald-400" />
-              Career Mentor Portal
-            </Link>
+            {(liveProfile?.role === "mentor" || (user as any).role === "mentor") && (
+              <Link
+                href="/mentor"
+                onClick={() => setIsOpen(false)}
+                className="flex items-center gap-2.5 px-4 py-2 text-xs font-semibold text-slate-700 dark:text-slate-200 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-emerald-50/60 dark:hover:bg-slate-800/60 transition-colors"
+              >
+                <User className="w-4 h-4 text-emerald-500 dark:text-emerald-400" />
+                Career Mentor Portal
+              </Link>
+            )}
 
             <Link
-              href="/careerai/settings"
+              href="/profile"
               onClick={() => setIsOpen(false)}
               className="flex items-center gap-2.5 px-4 py-2 text-xs font-semibold text-slate-700 dark:text-slate-200 hover:text-[#3b28cc] dark:hover:text-purple-400 hover:bg-purple-50/60 dark:hover:bg-slate-800/60 transition-colors"
             >
               <Settings className="w-4 h-4 text-slate-400 dark:text-slate-400" />
-              Account Settings
+              Profile &amp; Account Settings
             </Link>
           </div>
 

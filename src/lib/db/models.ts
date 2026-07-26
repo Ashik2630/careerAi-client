@@ -6,6 +6,7 @@ export interface UserProfile {
   userId: string;
   name: string;
   email: string;
+  role?: string;
   skills: string[];
   education: string;
   experience: string;

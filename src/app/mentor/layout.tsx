@@ -126,9 +126,12 @@ export default function MentorLayout({
             <p className="text-[11px] text-blue-100 leading-tight">
               Unlock unlimited AI resume optimization & mock interview coach.
             </p>
-            <button className="w-full bg-white text-[#3b28cc] hover:bg-slate-100 font-semibold text-xs py-2 rounded-xl transition-all shadow-xs cursor-pointer">
+            <Link
+              href="/pricing"
+              className="block text-center w-full bg-white text-[#3b28cc] hover:bg-slate-100 font-semibold text-xs py-2 rounded-xl transition-all shadow-xs cursor-pointer"
+            >
               Upgrade to Pro
-            </button>
+            </Link>
           </div>
 
           {/* Bottom Settings & Help */}

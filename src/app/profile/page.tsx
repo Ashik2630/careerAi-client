@@ -2,9 +2,13 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { Sparkles, User, GraduationCap, Briefcase, Target, Save, CheckCircle2, Copy, FileText, ArrowLeft, Loader2 } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useSession } from "@/lib/auth-client";
+import { Sparkles, User, GraduationCap, Briefcase, Target, Save, CheckCircle2, Copy, FileText, ArrowLeft, Loader2, Mail } from "lucide-react";
 
 export default function ProfilePage() {
+  const router = useRouter();
+  const { data: session, isPending: sessionPending } = useSession();
   const [profile, setProfile] = useState({
     name: "",
     email: "",
@@ -24,6 +28,12 @@ export default function ProfilePage() {
     linkedinBio?: string;
     coverLetter?: string;
   } | null>(null);
+
+  useEffect(() => {
+    if (!sessionPending && !session?.user) {
+      router.push("/login");
+    }
+  }, [sessionPending, session, router]);
 
   useEffect(() => {
     fetchProfile();
@@ -61,8 +71,12 @@ export default function ProfilePage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(profile)
       });
-      if (res.ok) {
+      const data = await res.json();
+      if (res.ok && data.success) {
         setSaveSuccess(true);
+        // Instantly notify Navbar, UserDropdown, and Dashboard
+        window.dispatchEvent(new CustomEvent("profile-updated", { detail: data.data }));
+        router.refresh();
         setTimeout(() => setSaveSuccess(false), 3000);
       }
     } catch (e) {
@@ -141,7 +155,7 @@ export default function ProfilePage() {
         {/* Profile Form */}
         <div className="bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-8 border border-slate-200/80 dark:border-slate-800 shadow-sm space-y-6">
           <form onSubmit={handleSave} className="space-y-6">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
               <div className="space-y-2">
                 <label className="text-xs font-bold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
                   <User className="w-4 h-4 text-[#2563EB]" /> Full Name
@@ -151,6 +165,20 @@ export default function ProfilePage() {
                   value={profile.name}
                   onChange={(e) => setProfile({ ...profile, name: e.target.value })}
                   placeholder="e.g. Alex Candidate"
+                  className="w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-sm focus:outline-none focus:ring-2 focus:ring-[#2563EB]"
+                  required
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-xs font-bold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
+                  <Mail className="w-4 h-4 text-[#2563EB]" /> Email Address
+                </label>
+                <input
+                  type="email"
+                  value={profile.email}
+                  onChange={(e) => setProfile({ ...profile, email: e.target.value })}
+                  placeholder="e.g. alex@example.com"
                   className="w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-sm focus:outline-none focus:ring-2 focus:ring-[#2563EB]"
                   required
                 />
