@@ -1,8 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
-import { Check, Sparkles, Zap, ArrowRight, HelpCircle } from "lucide-react";
+import { Check, Sparkles, Zap } from "lucide-react";
 
 export default function PricingPage() {
   const [isAnnual, setIsAnnual] = useState(true);
@@ -10,6 +9,8 @@ export default function PricingPage() {
   const plans = [
     {
       name: "Starter",
+      id_monthly:"seeker_free_monthly",
+      id_annual:"seeker_free_annual",
       description: "Perfect for job seekers getting started with basic resume analysis.",
       monthlyPrice: "$0",
       annualPrice: "$0",
@@ -27,6 +28,8 @@ export default function PricingPage() {
     },
     {
       name: "Pro Career",
+      id_monthly:"seeker_pro_monthly",
+      id_annual:"seeker_pro_annual",
       description: "For professionals serious about accelerating their career trajectory.",
       monthlyPrice: "$29",
       annualPrice: "$24",
@@ -46,6 +49,8 @@ export default function PricingPage() {
     },
     {
       name: "Executive & Mentor",
+      id_monthly:"seeker_Executive_monthly",
+      id_annual:"seeker_Executive_annual",
       description: "For senior leaders seeking 1-on-1 human mentorship & custom AI agentic outreach.",
       monthlyPrice: "$89",
       annualPrice: "$79",
@@ -80,39 +85,38 @@ export default function PricingPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-white">
-      
+    <div className="min-h-screen bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100 transition-colors">
+
       {/* Header */}
-      <section className="py-16 sm:py-24 bg-gradient-to-b from-blue-50/40 via-white to-white text-center relative">
+      <section className="py-16 sm:py-24 bg-gradient-to-b from-blue-50/40 via-white to-white dark:from-slate-950 dark:via-slate-950 dark:to-slate-950 text-center relative transition-colors">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-4">
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold text-[#3b28cc] bg-purple-50 border border-purple-200">
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold text-[#3b28cc] dark:text-purple-400 bg-purple-50 dark:bg-purple-950/60 border border-purple-200 dark:border-purple-800">
             <Sparkles className="w-3.5 h-3.5" /> Transparent Pricing
           </span>
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-serif font-bold text-[#111827] tracking-tight">
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-serif font-bold text-[#111827] dark:text-white tracking-tight">
             Invest in Your Career Acceleration
           </h1>
-          <p className="text-base sm:text-lg text-gray-600 font-sans max-w-2xl mx-auto">
+          <p className="text-base sm:text-lg text-gray-600 dark:text-slate-300 font-sans max-w-2xl mx-auto">
             Choose the plan that fits your professional goals. Upgrade, downgrade, or cancel anytime.
           </p>
 
           {/* Billing Toggle */}
           <div className="pt-6 flex items-center justify-center gap-3">
-            <span className={`text-sm font-medium ${!isAnnual ? "text-slate-900 font-bold" : "text-gray-500"}`}>
+            <span className={`text-sm font-medium ${!isAnnual ? "text-slate-900 dark:text-white font-bold" : "text-gray-500 dark:text-slate-400"}`}>
               Monthly
             </span>
             <button
               onClick={() => setIsAnnual(!isAnnual)}
-              className="w-14 h-8 bg-[#3b28cc] rounded-full p-1 transition-colors relative cursor-pointer"
+              className="w-14 h-8 bg-[#3b28cc] dark:bg-purple-600 rounded-full p-1 transition-colors relative cursor-pointer"
             >
               <div
-                className={`w-6 h-6 bg-white rounded-full transition-transform shadow-xs ${
-                  isAnnual ? "translate-x-6" : "translate-x-0"
-                }`}
+                className={`w-6 h-6 bg-white rounded-full transition-transform shadow-xs ${isAnnual ? "translate-x-6" : "translate-x-0"
+                  }`}
               />
             </button>
-            <span className={`text-sm font-medium flex items-center gap-1.5 ${isAnnual ? "text-slate-900 font-bold" : "text-gray-500"}`}>
+            <span className={`text-sm font-medium flex items-center gap-1.5 ${isAnnual ? "text-slate-900 dark:text-white font-bold" : "text-gray-500 dark:text-slate-400"}`}>
               Annual
-              <span className="text-[10px] font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-full">
+              <span className="text-[10px] font-bold text-emerald-700 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-900 px-2 py-0.5 rounded-full">
                 Save 20%
               </span>
             </span>
@@ -126,11 +130,10 @@ export default function PricingPage() {
           {plans.map((plan, idx) => (
             <div
               key={idx}
-              className={`rounded-3xl p-8 flex flex-col justify-between transition-all duration-300 relative ${
-                plan.popular
+              className={`rounded-3xl p-8 flex flex-col justify-between transition-all duration-300 relative ${plan.popular
                   ? "bg-[#1c212c] text-white shadow-2xl border-2 border-[#3b28cc] ring-4 ring-[#3b28cc]/10"
-                  : "bg-white text-slate-800 border border-gray-200/80 shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-lg"
-              }`}
+                  : "bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 border border-gray-200/80 dark:border-slate-800 shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-lg"
+                }`}
             >
               {plan.popular && (
                 <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-[#3b28cc] text-white text-xs font-bold px-4 py-1 rounded-full shadow-sm flex items-center gap-1">
@@ -140,42 +143,45 @@ export default function PricingPage() {
 
               <div className="space-y-6">
                 <div>
-                  <h3 className="text-2xl font-serif font-bold">{plan.name}</h3>
-                  <p className={`text-xs mt-2 leading-relaxed ${plan.popular ? "text-gray-300" : "text-gray-500"}`}>
+                  <h3 className="text-2xl font-serif font-bold dark:text-white">{plan.name}</h3>
+                  <p className={`text-xs mt-2 leading-relaxed ${plan.popular ? "text-gray-300" : "text-gray-500 dark:text-slate-400"}`}>
                     {plan.description}
                   </p>
                 </div>
 
                 <div className="flex items-baseline gap-1">
-                  <span className="text-4xl sm:text-5xl font-serif font-bold">
+                  <span className="text-4xl sm:text-5xl font-serif font-bold dark:text-white">
                     {isAnnual ? plan.annualPrice : plan.monthlyPrice}
                   </span>
-                  <span className={`text-xs ${plan.popular ? "text-gray-300" : "text-gray-500"}`}>
+                  <span className={`text-xs ${plan.popular ? "text-gray-300" : "text-gray-500 dark:text-slate-400"}`}>
                     /{plan.period}
                   </span>
                 </div>
 
-                <div className="space-y-3 pt-4 border-t border-gray-100/20">
+                <div className="space-y-3 pt-4 border-t border-gray-100/20 dark:border-slate-800">
                   {plan.features.map((feat, fIdx) => (
                     <div key={fIdx} className="flex items-start gap-2.5 text-xs sm:text-sm">
-                      <Check className={`w-4 h-4 shrink-0 mt-0.5 ${plan.popular ? "text-blue-400" : "text-[#3b28cc]"}`} />
-                      <span className={plan.popular ? "text-gray-200" : "text-gray-600"}>{feat}</span>
+                      <Check className={`w-4 h-4 shrink-0 mt-0.5 ${plan.popular ? "text-blue-400" : "text-[#3b28cc] dark:text-purple-400"}`} />
+                      <span className={plan.popular ? "text-gray-200" : "text-gray-600 dark:text-slate-300"}>{feat}</span>
                     </div>
                   ))}
                 </div>
               </div>
 
               <div className="pt-8">
-                <Link
-                  href={plan.ctaHref}
-                  className={`w-full text-center py-3.5 rounded-xl font-bold text-sm block transition-all shadow-sm ${
-                    plan.popular
+                <form action="/api/checkout_sessions" method="POST">
+                  <input type="hidden" name="priceId" value={isAnnual ? plan.id_annual : plan.id_monthly} />
+                  <section>
+                    <button className={`w-full text-center py-3.5 rounded-xl font-bold text-sm block transition-all shadow-sm ${plan.popular
                       ? "bg-[#3b28cc] hover:bg-[#2d1eb3] text-white"
                       : "bg-[#3b28cc] hover:bg-[#2d1eb3] text-white"
-                  }`}
-                >
-                  {plan.ctaText}
-                </Link>
+                      }`}
+                      type="submit"
+                      role="link">
+                       {plan.ctaText}
+                    </button>
+                  </section>
+                </form>
               </div>
             </div>
           ))}
@@ -183,18 +189,18 @@ export default function PricingPage() {
       </section>
 
       {/* FAQ Section */}
-      <section className="py-16 bg-slate-50/60 border-t border-gray-100">
+      <section className="py-16 bg-slate-50/60 dark:bg-slate-900/60 border-t border-gray-100 dark:border-slate-800 transition-colors">
         <div className="max-w-4xl mx-auto px-4 space-y-8">
           <div className="text-center space-y-2">
-            <h2 className="text-3xl font-serif font-bold text-slate-900">Frequently Asked Questions</h2>
-            <p className="text-gray-500 text-sm">Got questions about our plans? We&apos;ve got answers.</p>
+            <h2 className="text-3xl font-serif font-bold text-slate-900 dark:text-white">Frequently Asked Questions</h2>
+            <p className="text-gray-500 dark:text-slate-400 text-sm">Got questions about our plans? We&apos;ve got answers.</p>
           </div>
 
           <div className="space-y-4">
             {faqs.map((faq, idx) => (
-              <div key={idx} className="bg-white p-6 rounded-2xl border border-gray-200/80 space-y-2">
-                <h3 className="font-bold text-slate-900 text-base">{faq.q}</h3>
-                <p className="text-sm text-gray-500 leading-relaxed">{faq.a}</p>
+              <div key={idx} className="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-gray-200/80 dark:border-slate-800 space-y-2">
+                <h3 className="font-bold text-slate-900 dark:text-white text-base">{faq.q}</h3>
+                <p className="text-sm text-gray-500 dark:text-slate-400 leading-relaxed">{faq.a}</p>
               </div>
             ))}
           </div>

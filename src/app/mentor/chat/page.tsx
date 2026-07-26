@@ -62,23 +62,23 @@ export default function ChatPage() {
   ];
 
   return (
-    <div className="max-w-5xl mx-auto h-[calc(100vh-140px)] flex flex-col bg-white rounded-2xl border border-gray-200/80 shadow-2xs overflow-hidden">
+    <div className="max-w-5xl mx-auto h-[calc(100vh-140px)] flex flex-col bg-white dark:bg-slate-900 rounded-2xl border border-gray-200/80 dark:border-slate-800 shadow-2xs overflow-hidden">
       
       {/* Chat Header */}
-      <div className="p-4 border-b border-gray-200/80 bg-slate-50/70 flex items-center justify-between">
+      <div className="p-4 border-b border-gray-200/80 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-800/50 flex items-center justify-between">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-xl bg-[#3b28cc] text-white flex items-center justify-center font-bold text-sm shadow-xs">
             <Bot className="w-5 h-5" />
           </div>
           <div>
-            <h2 className="font-bold text-slate-900 text-sm">AI Career Coach</h2>
-            <span className="text-[11px] text-emerald-600 font-medium flex items-center gap-1">
+            <h2 className="font-bold text-slate-900 dark:text-white text-sm">AI Career Coach</h2>
+            <span className="text-[11px] text-emerald-600 dark:text-emerald-400 font-medium flex items-center gap-1">
               <span className="w-2 h-2 rounded-full bg-emerald-500 inline-block"></span> Online & Active
             </span>
           </div>
         </div>
 
-        <button className="text-slate-400 hover:text-slate-600 p-2 rounded-lg hover:bg-slate-100">
+        <button className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 cursor-pointer">
           <RefreshCw className="w-4 h-4" />
         </button>
       </div>
@@ -106,13 +106,13 @@ export default function ChatPage() {
               className={`max-w-lg p-4 rounded-2xl text-xs sm:text-sm leading-relaxed ${
                 msg.sender === "user"
                   ? "bg-[#3b28cc] text-white rounded-tr-none"
-                  : "bg-slate-100 text-slate-800 rounded-tl-none border border-slate-200/60"
+                  : "bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-100 rounded-tl-none border border-slate-200/60 dark:border-slate-700"
               }`}
             >
               <p>{msg.text}</p>
               <span
                 className={`text-[10px] block mt-1.5 ${
-                  msg.sender === "user" ? "text-blue-200 text-right" : "text-slate-400"
+                  msg.sender === "user" ? "text-blue-200 text-right" : "text-slate-400 dark:text-slate-500"
                 }`}
               >
                 {msg.time}
@@ -123,12 +123,12 @@ export default function ChatPage() {
       </div>
 
       {/* Prompt Suggestions */}
-      <div className="px-4 py-2 bg-slate-50 border-t border-gray-100 flex flex-wrap gap-2">
+      <div className="px-4 py-2 bg-slate-50 dark:bg-slate-800/40 border-t border-gray-100 dark:border-slate-800 flex flex-wrap gap-2">
         {samplePrompts.map((prompt, idx) => (
           <button
             key={idx}
             onClick={() => setInput(prompt)}
-            className="bg-white border border-gray-200 hover:border-[#3b28cc] hover:text-[#3b28cc] text-slate-600 text-xs px-3 py-1.5 rounded-full transition-all text-left"
+            className="bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 hover:border-[#3b28cc] dark:hover:border-purple-400 text-slate-600 dark:text-slate-300 text-xs px-3 py-1.5 rounded-full transition-all text-left cursor-pointer"
           >
             {prompt}
           </button>
@@ -136,13 +136,13 @@ export default function ChatPage() {
       </div>
 
       {/* Input Area */}
-      <form onSubmit={handleSend} className="p-4 border-t border-gray-200/80 bg-white flex items-center gap-3">
+      <form onSubmit={handleSend} className="p-4 border-t border-gray-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 flex items-center gap-3">
         <input
           type="text"
           placeholder="Ask your AI Career Coach anything..."
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          className="flex-1 bg-slate-50 border border-gray-200 rounded-xl px-4 py-3 text-xs sm:text-sm text-slate-800 placeholder-gray-400 focus:outline-none focus:border-[#3b28cc] focus:bg-white transition-all"
+          className="flex-1 bg-slate-50 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-xl px-4 py-3 text-xs sm:text-sm text-slate-800 dark:text-slate-100 placeholder-gray-400 dark:placeholder-slate-500 focus:outline-none focus:border-[#3b28cc] dark:focus:border-purple-400 focus:bg-white dark:focus:bg-slate-900 transition-all"
         />
         <button
           type="submit"
@@ -151,7 +151,6 @@ export default function ChatPage() {
           <Send className="w-4 h-4" />
         </button>
       </form>
-
     </div>
   );
 }

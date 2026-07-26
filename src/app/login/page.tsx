@@ -94,8 +94,8 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col justify-center py-6 sm:py-12 lg:py-0">
-      <div className="w-full max-w-7xl mx-auto lg:min-h-screen flex flex-col lg:flex-row bg-white lg:shadow-2xl lg:overflow-hidden">
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 flex flex-col justify-center py-6 sm:py-12 lg:py-0 transition-colors">
+      <div className="w-full max-w-7xl mx-auto lg:min-h-screen flex flex-col lg:flex-row bg-white dark:bg-slate-900 lg:shadow-2xl lg:overflow-hidden transition-colors">
         
         {/* Left Side Feature Showcase (Desktop) */}
         <AuthSidebar mode="login" />
@@ -107,7 +107,7 @@ export default function LoginPage() {
           <div className="flex items-center justify-between mb-8">
             <Link
               href="/"
-              className="inline-flex items-center text-xs font-semibold text-gray-500 hover:text-[#3b28cc] transition-colors gap-1.5 group"
+              className="inline-flex items-center text-xs font-semibold text-gray-500 dark:text-slate-400 hover:text-[#3b28cc] dark:hover:text-purple-400 transition-colors gap-1.5 group"
             >
               <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
               Back to Home
@@ -115,14 +115,14 @@ export default function LoginPage() {
 
             {/* Mobile Logo */}
             <Link href="/" className="lg:hidden flex items-center gap-1.5">
-              <Sparkles className="w-5 h-5 text-[#3b28cc]" />
-              <span className="text-xl font-bold font-serif text-[#111827]">
-                Career<span className="text-[#3b28cc]">AI</span>
+              <Sparkles className="w-5 h-5 text-[#3b28cc] dark:text-purple-400" />
+              <span className="text-xl font-bold font-serif text-gray-900 dark:text-white">
+                Career<span className="text-[#3b28cc] dark:text-purple-400">AI</span>
               </span>
             </Link>
 
-            <span className="text-xs text-gray-400 font-medium hidden sm:inline">
-              Need help? <a href="/contact" className="text-[#3b28cc] underline hover:text-[#2a1d99]">Support</a>
+            <span className="text-xs text-gray-400 dark:text-slate-500 font-medium hidden sm:inline">
+              Need help? <a href="/contact" className="text-[#3b28cc] dark:text-purple-400 underline hover:text-[#2a1d99]">Support</a>
             </span>
           </div>
 
@@ -131,10 +131,10 @@ export default function LoginPage() {
             
             {/* Page Heading */}
             <div className="space-y-2 text-left">
-              <h1 className="text-2xl sm:text-3xl font-bold font-serif text-gray-900 tracking-tight">
+              <h1 className="text-2xl sm:text-3xl font-bold font-serif text-gray-900 dark:text-white tracking-tight">
                 Welcome back
               </h1>
-              <p className="text-sm text-gray-500">
+              <p className="text-sm text-gray-500 dark:text-slate-400">
                 Enter your credentials to access your AI Career Dashboard.
               </p>
             </div>
@@ -145,7 +145,7 @@ export default function LoginPage() {
                 type="button"
                 disabled={isLoading}
                 onClick={() => handleSocialSignIn("google")}
-                className="flex items-center justify-center py-2.5 px-3 border border-gray-200 rounded-xl bg-white hover:bg-gray-50 text-xs font-semibold text-gray-700 shadow-xs transition-all hover:border-gray-300 disabled:opacity-50 cursor-pointer"
+                className="flex items-center justify-center py-2.5 px-3 border border-gray-200 dark:border-slate-800 rounded-xl bg-white dark:bg-slate-800 hover:bg-gray-50 dark:hover:bg-slate-700 text-xs font-semibold text-gray-700 dark:text-slate-200 shadow-xs transition-all hover:border-gray-300 dark:hover:border-slate-600 disabled:opacity-50 cursor-pointer"
               >
                 <svg className="w-4 h-4 mr-2" viewBox="0 0 24 24">
                   <path
@@ -172,9 +172,9 @@ export default function LoginPage() {
                 type="button"
                 disabled={isLoading}
                 onClick={() => handleSocialSignIn("github")}
-                className="flex items-center justify-center py-2.5 px-3 border border-gray-200 rounded-xl bg-white hover:bg-gray-50 text-xs font-semibold text-gray-700 shadow-xs transition-all hover:border-gray-300 disabled:opacity-50 cursor-pointer"
+                className="flex items-center justify-center py-2.5 px-3 border border-gray-200 dark:border-slate-800 rounded-xl bg-white dark:bg-slate-800 hover:bg-gray-50 dark:hover:bg-slate-700 text-xs font-semibold text-gray-700 dark:text-slate-200 shadow-xs transition-all hover:border-gray-300 dark:hover:border-slate-600 disabled:opacity-50 cursor-pointer"
               >
-                <svg className="w-4 h-4 mr-2 fill-gray-900" viewBox="0 0 24 24">
+                <svg className="w-4 h-4 mr-2 fill-gray-900 dark:fill-white" viewBox="0 0 24 24">
                   <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
                 </svg>
                 GitHub
@@ -183,7 +183,7 @@ export default function LoginPage() {
               <button
                 type="button"
                 onClick={() => setErrorMessage("LinkedIn sign-in requires LINKEDIN_CLIENT_ID configuration.")}
-                className="flex items-center justify-center py-2.5 px-3 border border-gray-200 rounded-xl bg-white hover:bg-gray-50 text-xs font-semibold text-gray-700 shadow-xs transition-all hover:border-gray-300 cursor-pointer"
+                className="flex items-center justify-center py-2.5 px-3 border border-gray-200 dark:border-slate-800 rounded-xl bg-white dark:bg-slate-800 hover:bg-gray-50 dark:hover:bg-slate-700 text-xs font-semibold text-gray-700 dark:text-slate-200 shadow-xs transition-all hover:border-gray-300 dark:hover:border-slate-600 cursor-pointer"
               >
                 <svg className="w-4 h-4 mr-2 fill-[#0A66C2]" viewBox="0 0 24 24">
                   <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z" />
@@ -194,24 +194,24 @@ export default function LoginPage() {
 
             {/* Divider */}
             <div className="relative flex items-center justify-center">
-              <div className="border-t border-gray-200 w-full" />
-              <span className="bg-white px-3 text-xs font-medium text-gray-400 uppercase tracking-wider shrink-0">
+              <div className="border-t border-gray-200 dark:border-slate-800 w-full" />
+              <span className="bg-white dark:bg-slate-900 px-3 text-xs font-medium text-gray-400 dark:text-slate-500 uppercase tracking-wider shrink-0">
                 Or with email
               </span>
-              <div className="border-t border-gray-200 w-full" />
+              <div className="border-t border-gray-200 dark:border-slate-800 w-full" />
             </div>
 
             {/* Alert Feedback Messages */}
             {errorMessage && (
-              <div className="p-3.5 rounded-xl bg-rose-50 border border-rose-200 text-xs font-medium text-rose-700 flex items-start gap-2 animate-fadeIn">
-                <AlertCircle className="w-4 h-4 text-rose-600 shrink-0 mt-0.5" />
+              <div className="p-3.5 rounded-xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-900 text-xs font-medium text-rose-700 dark:text-rose-300 flex items-start gap-2 animate-fadeIn">
+                <AlertCircle className="w-4 h-4 text-rose-600 dark:text-rose-400 shrink-0 mt-0.5" />
                 <span>{errorMessage}</span>
               </div>
             )}
 
             {successMessage && (
-              <div className="p-3.5 rounded-xl bg-emerald-50 border border-emerald-200 text-xs font-medium text-emerald-800 flex items-start gap-2 animate-fadeIn">
-                <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+              <div className="p-3.5 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-900 text-xs font-medium text-emerald-800 dark:text-emerald-300 flex items-start gap-2 animate-fadeIn">
+                <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
                 <span>{successMessage}</span>
               </div>
             )}
@@ -221,11 +221,11 @@ export default function LoginPage() {
               
               {/* Email Address */}
               <div className="space-y-1.5 text-left">
-                <label className="text-xs font-semibold text-gray-700">
+                <label className="text-xs font-semibold text-gray-700 dark:text-slate-300">
                   Email address
                 </label>
                 <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-gray-400">
+                  <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-gray-400 dark:text-slate-500">
                     <Mail className="w-4 h-4" />
                   </div>
                   <input
@@ -234,7 +234,7 @@ export default function LoginPage() {
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="alex.candidate@example.com"
                     required
-                    className="w-full pl-10 pr-4 py-2.5 text-sm bg-gray-50/50 border border-gray-200 rounded-xl focus:bg-white focus:outline-none focus:border-[#3b28cc] focus:ring-2 focus:ring-[#3b28cc]/20 transition-all text-gray-900 placeholder:text-gray-400"
+                    className="w-full pl-10 pr-4 py-2.5 text-sm bg-gray-50/50 dark:bg-slate-800/50 border border-gray-200 dark:border-slate-700 rounded-xl focus:bg-white dark:focus:bg-slate-900 focus:outline-none focus:border-[#3b28cc] dark:focus:border-purple-400 focus:ring-2 focus:ring-[#3b28cc]/20 transition-all text-gray-900 dark:text-white placeholder:text-gray-400 dark:placeholder:text-slate-500"
                   />
                 </div>
               </div>
@@ -242,7 +242,7 @@ export default function LoginPage() {
               {/* Password */}
               <div className="space-y-1.5 text-left">
                 <div className="flex items-center justify-between">
-                  <label className="text-xs font-semibold text-gray-700">
+                  <label className="text-xs font-semibold text-gray-700 dark:text-slate-300">
                     Password
                   </label>
                   <a
@@ -251,13 +251,13 @@ export default function LoginPage() {
                       e.preventDefault();
                       setSuccessMessage("If an account exists, a password reset link has been sent to your email.");
                     }}
-                    className="text-xs font-semibold text-[#3b28cc] hover:text-[#2a1d99] hover:underline"
+                    className="text-xs font-semibold text-[#3b28cc] dark:text-purple-400 hover:text-[#2a1d99] hover:underline"
                   >
                     Forgot password?
                   </a>
                 </div>
                 <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-gray-400">
+                  <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-gray-400 dark:text-slate-500">
                     <Lock className="w-4 h-4" />
                   </div>
                   <input
@@ -266,12 +266,12 @@ export default function LoginPage() {
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="••••••••••••"
                     required
-                    className="w-full pl-10 pr-10 py-2.5 text-sm bg-gray-50/50 border border-gray-200 rounded-xl focus:bg-white focus:outline-none focus:border-[#3b28cc] focus:ring-2 focus:ring-[#3b28cc]/20 transition-all text-gray-900 placeholder:text-gray-400"
+                    className="w-full pl-10 pr-10 py-2.5 text-sm bg-gray-50/50 dark:bg-slate-800/50 border border-gray-200 dark:border-slate-700 rounded-xl focus:bg-white dark:focus:bg-slate-900 focus:outline-none focus:border-[#3b28cc] dark:focus:border-purple-400 focus:ring-2 focus:ring-[#3b28cc]/20 transition-all text-gray-900 dark:text-white placeholder:text-gray-400 dark:placeholder:text-slate-500"
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-gray-400 hover:text-gray-600 focus:outline-none"
+                    className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-gray-400 hover:text-gray-600 dark:hover:text-slate-300 focus:outline-none"
                   >
                     {showPassword ? (
                       <EyeOff className="w-4 h-4" />
@@ -284,12 +284,12 @@ export default function LoginPage() {
 
               {/* Remember Me */}
               <div className="flex items-center justify-between pt-1">
-                <label className="flex items-center gap-2 text-xs font-medium text-gray-600 cursor-pointer select-none">
+                <label className="flex items-center gap-2 text-xs font-medium text-gray-600 dark:text-slate-400 cursor-pointer select-none">
                   <input
                     type="checkbox"
                     checked={rememberMe}
                     onChange={(e) => setRememberMe(e.target.checked)}
-                    className="w-4 h-4 rounded border-gray-300 text-[#3b28cc] focus:ring-[#3b28cc] accent-[#3b28cc]"
+                    className="w-4 h-4 rounded border-gray-300 dark:border-slate-700 text-[#3b28cc] focus:ring-[#3b28cc] accent-[#3b28cc]"
                   />
                   Keep me signed in for 30 days
                 </label>
@@ -317,12 +317,12 @@ export default function LoginPage() {
             </form>
 
             {/* Bottom Register Redirect */}
-            <div className="text-center pt-4 border-t border-gray-100">
-              <p className="text-xs text-gray-500 font-medium">
+            <div className="text-center pt-4 border-t border-gray-100 dark:border-slate-800">
+              <p className="text-xs text-gray-500 dark:text-slate-400 font-medium">
                 Don&apos;t have a CareerAI account yet?{" "}
                 <Link
                   href="/register"
-                  className="font-bold text-[#3b28cc] hover:text-[#2a1d99] hover:underline"
+                  className="font-bold text-[#3b28cc] dark:text-purple-400 hover:text-[#2a1d99] hover:underline"
                 >
                   Create an account
                 </Link>
@@ -332,10 +332,10 @@ export default function LoginPage() {
           </div>
 
           {/* Footer info */}
-          <div className="text-center text-[11px] text-gray-400 mt-6">
+          <div className="text-center text-[11px] text-gray-400 dark:text-slate-500 mt-6">
             Protected by Better-Auth &amp; CareerAI{" "}
-            <a href="#" className="underline hover:text-gray-600">Privacy Policy</a> &amp;{" "}
-            <a href="#" className="underline hover:text-gray-600">Terms of Service</a>.
+            <a href="#" className="underline hover:text-gray-600 dark:hover:text-slate-400">Privacy Policy</a> &amp;{" "}
+            <a href="#" className="underline hover:text-gray-600 dark:hover:text-slate-400">Terms of Service</a>.
           </div>
 
         </div>

@@ -154,8 +154,8 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col justify-center py-6 sm:py-12 lg:py-0">
-      <div className="w-full max-w-7xl mx-auto lg:min-h-screen flex flex-col lg:flex-row bg-white lg:shadow-2xl lg:overflow-hidden">
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 flex flex-col justify-center py-6 sm:py-12 lg:py-0 transition-colors">
+      <div className="w-full max-w-7xl mx-auto lg:min-h-screen flex flex-col lg:flex-row bg-white dark:bg-slate-900 lg:shadow-2xl lg:overflow-hidden transition-colors">
         
         {/* Left Side Feature Showcase (Desktop) */}
         <AuthSidebar mode="register" />
@@ -167,7 +167,7 @@ export default function RegisterPage() {
           <div className="flex items-center justify-between mb-6">
             <Link
               href="/"
-              className="inline-flex items-center text-xs font-semibold text-gray-500 hover:text-[#3b28cc] transition-colors gap-1.5 group"
+              className="inline-flex items-center text-xs font-semibold text-gray-500 dark:text-slate-400 hover:text-[#3b28cc] dark:hover:text-purple-400 transition-colors gap-1.5 group"
             >
               <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
               Back to Home
@@ -175,15 +175,15 @@ export default function RegisterPage() {
 
             {/* Mobile Logo */}
             <Link href="/" className="lg:hidden flex items-center gap-1.5">
-              <Sparkles className="w-5 h-5 text-[#3b28cc]" />
-              <span className="text-xl font-bold font-serif text-[#111827]">
-                Career<span className="text-[#3b28cc]">AI</span>
+              <Sparkles className="w-5 h-5 text-[#3b28cc] dark:text-purple-400" />
+              <span className="text-xl font-bold font-serif text-gray-900 dark:text-white">
+                Career<span className="text-[#3b28cc] dark:text-purple-400">AI</span>
               </span>
             </Link>
 
-            <span className="text-xs text-gray-400 font-medium hidden sm:inline">
+            <span className="text-xs text-gray-400 dark:text-slate-500 font-medium hidden sm:inline">
               Already a member?{" "}
-              <Link href="/login" className="text-[#3b28cc] font-bold underline hover:text-[#2a1d99]">
+              <Link href="/login" className="text-[#3b28cc] dark:text-purple-400 font-bold underline hover:text-[#2a1d99]">
                 Sign in
               </Link>
             </span>
@@ -194,17 +194,17 @@ export default function RegisterPage() {
             
             {/* Page Heading */}
             <div className="space-y-1.5 text-left">
-              <h1 className="text-2xl sm:text-3xl font-bold font-serif text-gray-900 tracking-tight">
+              <h1 className="text-2xl sm:text-3xl font-bold font-serif text-gray-900 dark:text-white tracking-tight">
                 Create your account
               </h1>
-              <p className="text-xs sm:text-sm text-gray-500">
+              <p className="text-xs sm:text-sm text-gray-500 dark:text-slate-400">
                 Unlock instant AI resume scoring, skill gap tracking &amp; roadmaps.
               </p>
             </div>
 
             {/* Role / Primary Goal Selector */}
             <div className="space-y-1.5 text-left">
-              <label className="text-xs font-semibold text-gray-700">
+              <label className="text-xs font-semibold text-gray-700 dark:text-slate-300">
                 I am signing up as:
               </label>
               <div className="grid grid-cols-2 gap-2">
@@ -218,11 +218,11 @@ export default function RegisterPage() {
                       onClick={() => setRole(opt.id)}
                       className={`flex items-center gap-2 p-2.5 rounded-xl border text-xs font-semibold transition-all text-left ${
                         isSelected
-                          ? "border-[#3b28cc] bg-purple-50/60 text-[#3b28cc] ring-1 ring-[#3b28cc]"
-                          : "border-gray-200 bg-white text-gray-600 hover:border-gray-300 hover:bg-gray-50"
+                          ? "border-[#3b28cc] dark:border-purple-400 bg-purple-50/60 dark:bg-purple-950/60 text-[#3b28cc] dark:text-purple-400 ring-1 ring-[#3b28cc] dark:ring-purple-400"
+                          : "border-gray-200 dark:border-slate-800 bg-white dark:bg-slate-800 text-gray-600 dark:text-slate-300 hover:border-gray-300 dark:hover:border-slate-700 hover:bg-gray-50 dark:hover:bg-slate-700"
                       }`}
                     >
-                      <Icon className={`w-4 h-4 shrink-0 ${isSelected ? "text-[#3b28cc]" : "text-gray-400"}`} />
+                      <Icon className={`w-4 h-4 shrink-0 ${isSelected ? "text-[#3b28cc] dark:text-purple-400" : "text-gray-400 dark:text-slate-500"}`} />
                       <span className="truncate">{opt.label}</span>
                     </button>
                   );

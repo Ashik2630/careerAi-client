@@ -5,22 +5,22 @@ import { Play, Search, Bell, Sparkles, User, Briefcase, Award, TrendingUp, FileT
 
 export default function HeroSection() {
   return (
-    <section className="relative overflow-hidden bg-gradient-to-b from-blue-50/40 via-white to-white pt-10 sm:pt-16 pb-16 lg:pb-24">
+    <section className="relative overflow-hidden bg-gradient-to-b from-blue-50/40 via-white to-white dark:from-slate-950 dark:via-slate-950 dark:to-slate-950 pt-10 sm:pt-16 pb-16 lg:pb-24 transition-colors">
       {/* Background Soft Glow */}
-      <div className="absolute -top-24 -left-20 w-96 h-96 bg-cyan-200/30 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute top-1/3 left-1/4 w-80 h-80 bg-purple-200/20 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute -top-24 -left-20 w-96 h-96 bg-cyan-200/30 dark:bg-cyan-900/20 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute top-1/3 left-1/4 w-80 h-80 bg-purple-200/20 dark:bg-purple-900/20 rounded-full blur-3xl pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
           
           {/* Left Text Content */}
           <div className="lg:col-span-5 text-left space-y-6">
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-serif font-bold text-[#111827] tracking-tight leading-[1.15]">
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-serif font-bold text-[#111827] dark:text-white tracking-tight leading-[1.15]">
               Bridge the Gap Between Your{" "}
-              <span className="text-[#3b28cc]">Potential</span> and Your Dream Career.
+              <span className="text-[#3b28cc] dark:text-purple-400">Potential</span> and Your Dream Career.
             </h1>
 
-            <p className="text-base sm:text-lg text-gray-600 font-sans leading-relaxed max-w-xl">
+            <p className="text-base sm:text-lg text-gray-600 dark:text-slate-300 font-sans leading-relaxed max-w-xl">
               AI-powered resume analysis, skill gap tracking, and automated roadmapping.
               Let Empathetic Intelligence guide your next professional leap.
             </p>
@@ -36,10 +36,10 @@ export default function HeroSection() {
 
               <button
                 type="button"
-                className="bg-white hover:bg-gray-50 text-[#3b28cc] border border-gray-200/90 font-medium px-6 py-3.5 rounded-xl transition-all duration-200 text-sm sm:text-base flex items-center gap-2.5 justify-center shadow-xs cursor-pointer"
+                className="bg-white dark:bg-slate-900 hover:bg-gray-50 dark:hover:bg-slate-800 text-[#3b28cc] dark:text-purple-400 border border-gray-200/90 dark:border-slate-800 font-medium px-6 py-3.5 rounded-xl transition-all duration-200 text-sm sm:text-base flex items-center gap-2.5 justify-center shadow-xs cursor-pointer"
               >
-                <span className="w-5 h-5 rounded-full border border-[#3b28cc] flex items-center justify-center shrink-0">
-                  <Play className="w-2.5 h-2.5 text-[#3b28cc] fill-[#3b28cc] ml-0.5" />
+                <span className="w-5 h-5 rounded-full border border-[#3b28cc] dark:border-purple-400 flex items-center justify-center shrink-0">
+                  <Play className="w-2.5 h-2.5 text-[#3b28cc] dark:text-purple-400 fill-[#3b28cc] dark:fill-purple-400 ml-0.5" />
                 </span>
                 Watch Demo
               </button>
@@ -48,10 +48,10 @@ export default function HeroSection() {
 
           {/* Right Preview Window Mockup */}
           <div className="lg:col-span-7">
-            <div className="relative rounded-2xl bg-white p-2.5 sm:p-3 border border-gray-200/90 shadow-[0_20px_60px_-15px_rgba(59,40,204,0.15)] transition-all hover:shadow-[0_25px_70px_-15px_rgba(59,40,204,0.2)]">
+            <div className="relative rounded-2xl bg-white dark:bg-slate-900 p-2.5 sm:p-3 border border-gray-200/90 dark:border-slate-800 shadow-[0_20px_60px_-15px_rgba(59,40,204,0.15)] transition-all">
               
               {/* Window Header Dots */}
-              <div className="flex items-center gap-2 px-3 py-2 border-b border-gray-100 bg-gray-50/70 rounded-t-xl">
+              <div className="flex items-center gap-2 px-3 py-2 border-b border-gray-100 dark:border-slate-800 bg-gray-50/70 dark:bg-slate-800/70 rounded-t-xl">
                 <span className="w-3 h-3 rounded-full bg-[#ff5f56] inline-block" />
                 <span className="w-3 h-3 rounded-full bg-[#ffbd2e] inline-block" />
                 <span className="w-3 h-3 rounded-full bg-[#27c93f] inline-block" />
@@ -295,36 +295,36 @@ export default function HeroSection() {
       </div>
 
       {/* Stats Bar - Bottom Section */}
-      <div className="w-full border-t border-gray-100 bg-slate-50/40 py-10 sm:py-12 mt-12 sm:mt-20">
+      <div className="w-full border-t border-gray-100 dark:border-slate-800 bg-slate-50/40 dark:bg-slate-900/40 py-10 sm:py-12 mt-12 sm:mt-20 transition-colors">
         <div className="max-w-6xl mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-gray-200/80 text-center gap-6 md:gap-0">
+          <div className="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-gray-200/80 dark:divide-slate-800 text-center gap-6 md:gap-0">
             
             {/* Stat Item 1 */}
             <div className="pt-4 md:pt-0 md:px-6 space-y-1">
-              <div className="text-4xl sm:text-5xl font-bold font-serif text-[#3b28cc] tracking-tight">
+              <div className="text-4xl sm:text-5xl font-bold font-serif text-[#3b28cc] dark:text-purple-400 tracking-tight">
                 10k+
               </div>
-              <div className="text-xs sm:text-sm font-medium text-gray-500 font-sans tracking-wide">
+              <div className="text-xs sm:text-sm font-medium text-gray-500 dark:text-slate-400 font-sans tracking-wide">
                 Resumes Analyzed
               </div>
             </div>
 
             {/* Stat Item 2 */}
             <div className="pt-6 md:pt-0 md:px-6 space-y-1">
-              <div className="text-4xl sm:text-5xl font-bold font-serif text-[#3b28cc] tracking-tight">
+              <div className="text-4xl sm:text-5xl font-bold font-serif text-[#3b28cc] dark:text-purple-400 tracking-tight">
                 85%
               </div>
-              <div className="text-xs sm:text-sm font-medium text-gray-500 font-sans tracking-wide">
+              <div className="text-xs sm:text-sm font-medium text-gray-500 dark:text-slate-400 font-sans tracking-wide">
                 Success Rate
               </div>
             </div>
 
             {/* Stat Item 3 */}
             <div className="pt-6 md:pt-0 md:px-6 space-y-1">
-              <div className="text-4xl sm:text-5xl font-bold font-serif text-[#3b28cc] tracking-tight">
+              <div className="text-4xl sm:text-5xl font-bold font-serif text-[#3b28cc] dark:text-purple-400 tracking-tight">
                 4.9/5
               </div>
-              <div className="text-xs sm:text-sm font-medium text-gray-500 font-sans tracking-wide">
+              <div className="text-xs sm:text-sm font-medium text-gray-500 dark:text-slate-400 font-sans tracking-wide">
                 User Rating
               </div>
             </div>

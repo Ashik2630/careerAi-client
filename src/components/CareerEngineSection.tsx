@@ -35,15 +35,15 @@ export default function CareerEngineSection() {
   ];
 
   return (
-    <section className="py-20 sm:py-28 bg-white border-t border-b border-gray-100 relative">
+    <section className="py-20 sm:py-28 bg-white dark:bg-slate-950 border-t border-b border-gray-100 dark:border-slate-800 relative transition-colors">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
         <div className="text-center space-y-2 mb-16 sm:mb-24">
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-serif font-bold text-[#111827] tracking-tight">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-serif font-bold text-[#111827] dark:text-white tracking-tight">
             The Career Progression Engine
           </h2>
-          <p className="text-base sm:text-lg text-gray-500 font-sans">
+          <p className="text-base sm:text-lg text-gray-500 dark:text-slate-400 font-sans">
             Four steps to your next role.
           </p>
         </div>
@@ -52,7 +52,7 @@ export default function CareerEngineSection() {
         <div className="relative">
           
           {/* Desktop Connecting Line */}
-          <div className="hidden md:block absolute top-10 left-[12%] right-[12%] h-[2px] bg-gray-200 z-0" />
+          <div className="hidden md:block absolute top-10 left-[12%] right-[12%] h-[2px] bg-gray-200 dark:bg-slate-800 z-0" />
 
           <div className="grid grid-cols-1 md:grid-cols-4 gap-10 md:gap-6 relative z-10">
             {steps.map((step, idx) => {
@@ -66,12 +66,12 @@ export default function CareerEngineSection() {
                   </div>
 
                   {/* Title */}
-                  <h3 className="text-xl font-serif font-bold text-[#111827] mt-6 tracking-tight">
+                  <h3 className="text-xl font-serif font-bold text-[#111827] dark:text-white mt-6 tracking-tight">
                     {step.number} {step.title}
                   </h3>
 
                   {/* Description */}
-                  <p className="text-sm text-gray-500 font-sans mt-2.5 max-w-[220px] leading-relaxed">
+                  <p className="text-sm text-gray-500 dark:text-slate-400 font-sans mt-2.5 max-w-[220px] leading-relaxed">
                     {step.description}
                   </p>
 

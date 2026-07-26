@@ -6,15 +6,15 @@ import { ArrowRight } from "lucide-react";
 
 export default function IntelligentToolsSection() {
   return (
-    <section className="py-16 sm:py-24 bg-white relative">
+    <section className="py-16 sm:py-24 bg-white dark:bg-slate-950 relative transition-colors">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
         <div className="text-center space-y-3 mb-12 sm:mb-16">
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-serif font-bold text-[#111827] tracking-tight">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-serif font-bold text-[#111827] dark:text-white tracking-tight">
             Intelligent Tools for Modern Professionals
           </h2>
-          <p className="text-base sm:text-lg text-gray-500 font-sans max-w-2xl mx-auto">
+          <p className="text-base sm:text-lg text-gray-500 dark:text-slate-400 font-sans max-w-2xl mx-auto">
             Everything you need to navigate today&apos;s competitive job market.
           </p>
         </div>
@@ -26,10 +26,10 @@ export default function IntelligentToolsSection() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
             
             {/* Card 1: Agentic Orchestration */}
-            <div className="lg:col-span-7 bg-white rounded-3xl p-8 sm:p-10 border border-gray-200/80 shadow-[0_4px_25px_rgba(0,0,0,0.03)] hover:shadow-lg transition-all duration-300 flex flex-col justify-between group">
+            <div className="lg:col-span-7 bg-white dark:bg-slate-900 rounded-3xl p-8 sm:p-10 border border-gray-200/80 dark:border-slate-800 shadow-[0_4px_25px_rgba(0,0,0,0.03)] hover:shadow-lg transition-all duration-300 flex flex-col justify-between group">
               <div>
                 {/* Purple Network Icon */}
-                <div className="w-12 h-12 rounded-xl bg-purple-50 flex items-center justify-center text-[#3b28cc] mb-6">
+                <div className="w-12 h-12 rounded-xl bg-purple-50 dark:bg-purple-950/50 flex items-center justify-center text-[#3b28cc] dark:text-purple-400 mb-6">
                   <svg
                     className="w-7 h-7"
                     viewBox="0 0 24 24"
@@ -51,11 +51,11 @@ export default function IntelligentToolsSection() {
                   </svg>
                 </div>
 
-                <h3 className="text-2xl sm:text-3xl font-serif font-bold text-[#111827] tracking-tight">
+                <h3 className="text-2xl sm:text-3xl font-serif font-bold text-[#111827] dark:text-white tracking-tight">
                   Agentic Orchestration
                 </h3>
 
-                <p className="text-gray-500 font-sans text-base sm:text-lg leading-relaxed mt-4 max-w-xl">
+                <p className="text-gray-500 dark:text-slate-400 font-sans text-base sm:text-lg leading-relaxed mt-4 max-w-xl">
                   Your own AI career team working in the background. From finding leads to drafting outreach, consider it handled.
                 </p>
               </div>
@@ -63,7 +63,7 @@ export default function IntelligentToolsSection() {
               <div className="pt-8">
                 <Link
                   href="/features"
-                  className="text-[#3b28cc] font-semibold text-sm sm:text-base inline-flex items-center gap-2 group-hover:gap-3 transition-all duration-200"
+                  className="text-[#3b28cc] dark:text-purple-400 font-semibold text-sm sm:text-base inline-flex items-center gap-2 group-hover:gap-3 transition-all duration-200"
                 >
                   Learn more
                   <ArrowRight className="w-4 h-4" />
@@ -72,10 +72,10 @@ export default function IntelligentToolsSection() {
             </div>
 
             {/* Card 2: ATS Optimization */}
-            <div className="lg:col-span-5 bg-white rounded-3xl p-8 sm:p-10 border border-gray-200/80 shadow-[0_4px_25px_rgba(0,0,0,0.03)] hover:shadow-lg transition-all duration-300 flex flex-col justify-between">
+            <div className="lg:col-span-5 bg-white dark:bg-slate-900 rounded-3xl p-8 sm:p-10 border border-gray-200/80 dark:border-slate-800 shadow-[0_4px_25px_rgba(0,0,0,0.03)] hover:shadow-lg transition-all duration-300 flex flex-col justify-between">
               <div>
                 {/* Teal Checklist Icon */}
-                <div className="w-12 h-12 rounded-xl bg-teal-50 flex items-center justify-center text-[#0f766e] mb-6">
+                <div className="w-12 h-12 rounded-xl bg-teal-50 dark:bg-teal-950/50 flex items-center justify-center text-[#0f766e] dark:text-teal-400 mb-6">
                   <svg
                     className="w-7 h-7"
                     viewBox="0 0 24 24"
@@ -91,11 +91,11 @@ export default function IntelligentToolsSection() {
                   </svg>
                 </div>
 
-                <h3 className="text-2xl sm:text-3xl font-serif font-bold text-[#111827] tracking-tight">
+                <h3 className="text-2xl sm:text-3xl font-serif font-bold text-[#111827] dark:text-white tracking-tight">
                   ATS Optimization
                 </h3>
 
-                <p className="text-gray-500 font-sans text-base sm:text-lg leading-relaxed mt-4">
+                <p className="text-gray-500 dark:text-slate-400 font-sans text-base sm:text-lg leading-relaxed mt-4">
                   Beat the filters with precision formatting and keyword matching.
                 </p>
               </div>
@@ -107,10 +107,10 @@ export default function IntelligentToolsSection() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
             
             {/* Card 3: Live Interview Coaching */}
-            <div className="lg:col-span-5 bg-white rounded-3xl p-8 sm:p-10 border border-gray-200/80 shadow-[0_4px_25px_rgba(0,0,0,0.03)] hover:shadow-lg transition-all duration-300 flex flex-col justify-between">
+            <div className="lg:col-span-5 bg-white dark:bg-slate-900 rounded-3xl p-8 sm:p-10 border border-gray-200/80 dark:border-slate-800 shadow-[0_4px_25px_rgba(0,0,0,0.03)] hover:shadow-lg transition-all duration-300 flex flex-col justify-between">
               <div>
                 {/* Green User Video Icon */}
-                <div className="w-12 h-12 rounded-xl bg-emerald-50 flex items-center justify-center text-emerald-700 mb-6">
+                <div className="w-12 h-12 rounded-xl bg-emerald-50 dark:bg-emerald-950/50 flex items-center justify-center text-emerald-700 dark:text-emerald-400 mb-6">
                   <svg
                     className="w-7 h-7"
                     viewBox="0 0 24 24"
@@ -126,11 +126,11 @@ export default function IntelligentToolsSection() {
                   </svg>
                 </div>
 
-                <h3 className="text-2xl sm:text-3xl font-serif font-bold text-[#111827] tracking-tight">
+                <h3 className="text-2xl sm:text-3xl font-serif font-bold text-[#111827] dark:text-white tracking-tight">
                   Live Interview Coaching
                 </h3>
 
-                <p className="text-gray-500 font-sans text-base sm:text-lg leading-relaxed mt-4">
+                <p className="text-gray-500 dark:text-slate-400 font-sans text-base sm:text-lg leading-relaxed mt-4">
                   Real-time feedback during mock interviews to refine your pitch.
                 </p>
               </div>

@@ -21,20 +21,20 @@ export default function HelpPage() {
   return (
     <div className="space-y-8 max-w-4xl mx-auto">
       <div>
-        <h1 className="text-3xl font-bold font-sans text-slate-900">Help & Support Center</h1>
-        <p className="text-slate-500 text-sm mt-1">
+        <h1 className="text-3xl font-bold font-sans text-slate-900 dark:text-white">Help & Support Center</h1>
+        <p className="text-slate-500 dark:text-slate-400 text-sm mt-1">
           Everything you need to get the most out of Career Mentor.
         </p>
       </div>
 
-      <div className="bg-white p-6 sm:p-8 rounded-2xl border border-gray-200/80 shadow-2xs space-y-6">
-        <h2 className="text-lg font-bold text-slate-900 border-b border-gray-100 pb-3">Frequently Asked Questions</h2>
+      <div className="bg-white dark:bg-slate-900 p-6 sm:p-8 rounded-2xl border border-gray-200/80 dark:border-slate-800 shadow-2xs space-y-6">
+        <h2 className="text-lg font-bold text-slate-900 dark:text-white border-b border-gray-100 dark:border-slate-800 pb-3">Frequently Asked Questions</h2>
 
         <div className="space-y-4">
           {faqs.map((faq, idx) => (
-            <div key={idx} className="p-4 rounded-xl bg-slate-50 border border-slate-200/60 space-y-1">
-              <h3 className="font-bold text-slate-800 text-xs sm:text-sm">{faq.q}</h3>
-              <p className="text-xs text-slate-500 leading-relaxed">{faq.a}</p>
+            <div key={idx} className="p-4 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/60 dark:border-slate-700 space-y-1">
+              <h3 className="font-bold text-slate-800 dark:text-slate-200 text-xs sm:text-sm">{faq.q}</h3>
+              <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">{faq.a}</p>
             </div>
           ))}
         </div>

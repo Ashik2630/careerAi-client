@@ -44,18 +44,18 @@ export default function FeaturesPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100 transition-colors">
       
       {/* Hero Header */}
-      <section className="py-16 sm:py-24 bg-gradient-to-b from-blue-50/40 via-white to-white text-center relative overflow-hidden">
+      <section className="py-16 sm:py-24 bg-gradient-to-b from-blue-50/40 via-white to-white dark:from-slate-950 dark:via-slate-950 dark:to-slate-950 text-center relative overflow-hidden transition-colors">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-4">
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold text-[#3b28cc] bg-purple-50 border border-purple-200">
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold text-[#3b28cc] dark:text-purple-400 bg-purple-50 dark:bg-purple-950/60 border border-purple-200 dark:border-purple-800">
             <Sparkles className="w-3.5 h-3.5" /> Next-Gen AI Features
           </span>
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-serif font-bold text-[#111827] tracking-tight">
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-serif font-bold text-[#111827] dark:text-white tracking-tight">
             Intelligent Tools Built for Professional Acceleration
           </h1>
-          <p className="text-base sm:text-lg text-gray-600 font-sans max-w-2xl mx-auto leading-relaxed">
+          <p className="text-base sm:text-lg text-gray-600 dark:text-slate-300 font-sans max-w-2xl mx-auto leading-relaxed">
             Everything you need to analyze your resume, optimize skill gaps, and land your dream career with confidence.
           </p>
         </div>
@@ -69,15 +69,15 @@ export default function FeaturesPage() {
             return (
               <div
                 key={idx}
-                className="bg-white p-8 rounded-3xl border border-gray-200/80 shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-lg hover:border-[#3b28cc]/30 transition-all duration-300 space-y-4 group"
+                className="bg-white dark:bg-slate-900 p-8 rounded-3xl border border-gray-200/80 dark:border-slate-800 shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-lg hover:border-[#3b28cc]/30 dark:hover:border-purple-400/30 transition-all duration-300 space-y-4 group"
               >
-                <div className={`w-12 h-12 rounded-2xl ${item.color} flex items-center justify-center`}>
+                <div className={`w-12 h-12 rounded-2xl ${item.color} dark:bg-slate-800 dark:text-purple-400 flex items-center justify-center`}>
                   <Icon className="w-6 h-6" />
                 </div>
-                <h3 className="text-xl font-serif font-bold text-[#111827] group-hover:text-[#3b28cc] transition-colors">
+                <h3 className="text-xl font-serif font-bold text-[#111827] dark:text-white group-hover:text-[#3b28cc] dark:group-hover:text-purple-400 transition-colors">
                   {item.title}
                 </h3>
-                <p className="text-sm text-gray-500 font-sans leading-relaxed">
+                <p className="text-sm text-gray-500 dark:text-slate-400 font-sans leading-relaxed">
                   {item.description}
                 </p>
               </div>

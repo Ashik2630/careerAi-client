@@ -10,20 +10,20 @@ export default function SettingsPage() {
   return (
     <div className="space-y-8 max-w-4xl mx-auto">
       <div>
-        <h1 className="text-3xl font-bold font-sans text-slate-900">Account & AI Settings</h1>
-        <p className="text-slate-500 text-sm mt-1">
+        <h1 className="text-3xl font-bold font-sans text-slate-900 dark:text-white">Account & AI Settings</h1>
+        <p className="text-slate-500 dark:text-slate-400 text-sm mt-1">
           Manage your notification preferences and AI orchestration models.
         </p>
       </div>
 
-      <div className="bg-white p-6 sm:p-8 rounded-2xl border border-gray-200/80 shadow-2xs space-y-6">
-        <h2 className="text-lg font-bold text-slate-900 border-b border-gray-100 pb-3">Notification Preferences</h2>
+      <div className="bg-white dark:bg-slate-900 p-6 sm:p-8 rounded-2xl border border-gray-200/80 dark:border-slate-800 shadow-2xs space-y-6">
+        <h2 className="text-lg font-bold text-slate-900 dark:text-white border-b border-gray-100 dark:border-slate-800 pb-3">Notification Preferences</h2>
 
         <div className="space-y-4 text-xs sm:text-sm">
           <div className="flex items-center justify-between">
             <div>
-              <span className="font-bold text-slate-800 block">AI Job Match Alerts</span>
-              <span className="text-slate-400">Receive instant notifications when high-match tech roles open up.</span>
+              <span className="font-bold text-slate-800 dark:text-slate-200 block">AI Job Match Alerts</span>
+              <span className="text-slate-400 dark:text-slate-400">Receive instant notifications when high-match tech roles open up.</span>
             </div>
             <input
               type="checkbox"
@@ -33,10 +33,10 @@ export default function SettingsPage() {
             />
           </div>
 
-          <div className="flex items-center justify-between pt-3 border-t border-gray-100">
+          <div className="flex items-center justify-between pt-3 border-t border-gray-100 dark:border-slate-800">
             <div>
-              <span className="font-bold text-slate-800 block">Proactive AI Resume Tips</span>
-              <span className="text-slate-400">Allow AI Coach to suggest resume edits based on market shifts.</span>
+              <span className="font-bold text-slate-800 dark:text-slate-200 block">Proactive AI Resume Tips</span>
+              <span className="text-slate-400 dark:text-slate-400">Allow AI Coach to suggest resume edits based on market shifts.</span>
             </div>
             <input
               type="checkbox"
