@@ -3,11 +3,28 @@ import { getUserSession } from "@/lib/core/session";
 import { getJobsCol } from "@/lib/db/models";
 import { ObjectId } from "mongodb";
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
-    const jobsCol = await getJobsCol();
-    const items = await jobsCol.find({}).sort({ createdAt: -1 }).toArray();
+    const { searchParams } = new URL(request.url);
+    const id = searchParams.get("id");
 
+    const jobsCol = await getJobsCol();
+
+    if (id) {
+      let query: any;
+      try {
+        query = { _id: new ObjectId(id) };
+      } catch {
+        query = { _id: id as any };
+      }
+      const item = await jobsCol.findOne(query);
+      if (!item) {
+        return NextResponse.json({ error: "Job not found" }, { status: 404 });
+      }
+      return NextResponse.json({ success: true, data: item });
+    }
+
+    const items = await jobsCol.find({}).sort({ createdAt: -1 }).toArray();
     return NextResponse.json({ success: true, data: items });
   } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 500 });

@@ -13,14 +13,20 @@ export default function Navbar() {
   const pathname = usePathname();
   const { data: session } = useSession();
 
-  const navLinks = [
-    { name: "Features", href: "/features" },
-    { name: "Pricing", href: "/pricing" },
-    { name: "About", href: "/about" },
-    { name: "Contact", href: "/contact" },
-    { name: "Blog", href: "/blog" },
-    ...(session?.user ? [{ name: "Dashboard", href: "/dashboard" }] : []),
-  ];
+  // When unauthenticated, show only 2 routes (Features & About). When authenticated, show all routes + Dashboard.
+  const navLinks = session?.user
+    ? [
+        { name: "Features", href: "/features" },
+        { name: "Pricing", href: "/pricing" },
+        { name: "About", href: "/about" },
+        { name: "Contact", href: "/contact" },
+        { name: "Blog", href: "/blog" },
+        { name: "Dashboard", href: "/dashboard" },
+      ]
+    : [
+        { name: "Features", href: "/features" },
+        { name: "About", href: "/about" },
+      ];
 
   return (
     <nav className="w-full bg-white dark:bg-slate-900 border-b border-gray-100 dark:border-slate-800 sticky top-0 z-50 transition-colors">

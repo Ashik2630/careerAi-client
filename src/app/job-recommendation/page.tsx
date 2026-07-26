@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useSession } from "@/lib/auth-client";
-import { Compass, Briefcase, Target, Sparkles, MapPin, DollarSign, ArrowLeft, Loader2, Filter, CheckCircle2, Plus, Trash2, X, Building2 } from "lucide-react";
+import { Compass, Briefcase, Target, Sparkles, MapPin, DollarSign, ArrowLeft, Loader2, Filter, CheckCircle2, Plus, Trash2, X, Building2, Eye } from "lucide-react";
 
 export default function JobRecommendationPage() {
   const router = useRouter();
@@ -244,15 +244,13 @@ export default function JobRecommendationPage() {
                   </div>
 
                   <div className="flex items-center gap-2">
-                    {job._id && (
-                      <button
-                        onClick={() => handleDeleteJob(job._id)}
-                        className="p-2 rounded-xl text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-950/40 transition-colors"
-                        title="Delete Job"
-                      >
-                        <Trash2 className="w-4 h-4" />
-                      </button>
-                    )}
+                    <Link
+                      href={`/job-recommendation/${job._id || idx}`}
+                      className="px-4 py-2.5 rounded-xl border border-blue-200 dark:border-blue-800 bg-blue-50/70 dark:bg-blue-950/60 text-[#2563EB] dark:text-blue-400 font-bold text-xs hover:bg-blue-100 dark:hover:bg-blue-900/60 transition-all flex items-center gap-1.5"
+                    >
+                      <Eye className="w-3.5 h-3.5" />
+                      <span>Details</span>
+                    </Link>
                     <button className="px-5 py-2.5 rounded-xl bg-[#2563EB] hover:bg-blue-700 text-white font-bold text-xs transition-all shadow-sm">
                       Apply Now
                     </button>

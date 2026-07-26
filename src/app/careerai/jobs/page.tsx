@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Plus, Trash2, X, Loader2 } from "lucide-react";
+import Link from "next/link";
+import { Plus, Trash2, X, Loader2, Eye } from "lucide-react";
 
 export default function CareerAiJobsPage() {
   const [jobs, setJobs] = useState<any[]>([]);
@@ -149,15 +150,13 @@ export default function CareerAiJobsPage() {
                   {job.matchScore || job.match || "92%"} Match
                 </span>
 
-                {job._id && (
-                  <button
-                    onClick={() => handleDeleteJob(job._id)}
-                    className="p-2 rounded-xl text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-950/40 transition-colors"
-                    title="Delete Job"
-                  >
-                    <Trash2 className="w-4 h-4" />
-                  </button>
-                )}
+                <Link
+                  href={`/job-recommendation/${job._id || job.id}`}
+                  className="px-4 py-2 rounded-xl border border-purple-200 dark:border-purple-800 bg-purple-50/70 dark:bg-purple-950/60 text-[#3b28cc] dark:text-purple-400 font-bold text-xs hover:bg-purple-100 dark:hover:bg-purple-900/60 transition-all flex items-center gap-1.5"
+                >
+                  <Eye className="w-3.5 h-3.5" />
+                  <span>View Details</span>
+                </Link>
 
                 <button className="bg-[#3b28cc] hover:bg-[#2d1eb3] text-white text-xs font-semibold px-4 py-2 rounded-xl shadow-xs transition-all cursor-pointer">
                   One-Click Apply
